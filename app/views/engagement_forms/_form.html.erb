@@ -1,4 +1,4 @@
-<%= form_with model: @engagement_form, local: true, class: "usa-form" do |form| %>
+<%= form_with model: @engagement_form, local: true, class: "usa-form", builder: UswdsFormBuilder do |form| %>
   <% if @engagement_form.errors.any? %>
     <div class="usa-alert usa-alert--error" role="alert">
       <div class="usa-alert__body">
@@ -13,25 +13,13 @@
   <% end %>
   
   <fieldset class="usa-fieldset">
-            <legend class="usa-legend--large">Basic Information</legend>
+    <legend class="usa-legend--large">Basic Information</legend>
     
-    <div class="usa-form-group">
-      <%= form.label :user_name, "Full Name", class: "usa-label" %>
-      <%= form.text_field :user_name, class: "usa-input", required: true %>
-    </div>
+    <%= form.text_field :user_name, "Full Name", nil, required: true %>
     
-    <div class="usa-form-group">
-      <%= form.label :email, "Email Address", class: "usa-label" %>
-      <%= form.email_field :email, class: "usa-input", required: true %>
-    </div>
+    <%= form.email_field :email, "Email Address", nil, required: true %>
     
-    <div class="usa-form-group">
-      <%= form.label :application_date, "Application Date", class: "usa-label" %>
-      <div class="usa-hint" id="application-date-hint">
-        Select the date you are submitting this application. Information will be collected for the month prior to this date.
-      </div>
-      <%= form.date_field :application_date, class: "usa-input", required: true, "aria-describedby": "application-date-hint" %>
-    </div>
+    <%= form.date_field :application_date, "Application Date", "Select the date you are submitting this application. Information will be collected for the month prior to this date.", required: true %>
   </fieldset>
   
   <div class="usa-form-group">

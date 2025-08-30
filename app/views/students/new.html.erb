@@ -19,31 +19,24 @@
       </div>
     <% end %>
     
-    <%= form_with model: @engagement_form, url: engagement_form_students_path(@engagement_form), method: :post, local: true, class: "usa-form" do |form| %>
+    <%= form_with model: @engagement_form, url: engagement_form_students_path(@engagement_form), method: :post, local: true, class: "usa-form", builder: UswdsFormBuilder do |form| %>
       
       <fieldset class="usa-fieldset">
         <legend class="usa-legend--large">Student Details</legend>
         
-        <div class="usa-form-group">
-          <%= form.label :school_name, "School Name", class: "usa-label" %>
-          <%= form.text_field :school_name, class: "usa-input" %>
-        </div>
+        <%= form.text_field :school_name, "School Name" %>
         
-        <div class="usa-form-group">
-          <label class="usa-label">Enrollment Status</label>
-          <div class="usa-radio">
-            <%= form.radio_button :enrollment_status, "half_time_or_more", class: "usa-radio__input", id: "enrollment_half_time_or_more" %>
-            <%= form.label :enrollment_status_half_time_or_more, "Enrolled at least half-time", class: "usa-radio__label", for: "enrollment_half_time_or_more" %>
-          </div>
-          <div class="usa-radio">
-            <%= form.radio_button :enrollment_status, "less_than_half_time", class: "usa-radio__input", id: "enrollment_less_than_half_time" %>
-            <%= form.label :enrollment_status_less_than_half_time, "Enrolled less than half-time", class: "usa-radio__label", for: "enrollment_less_than_half_time" %>
-          </div>
-        </div>
+        <%= form.collection_radio_buttons :enrollment_status, 
+            [
+              ["half_time_or_more", "Enrolled at least half-time"],
+              ["less_than_half_time", "Enrolled less than half-time"]
+            ], 
+            :first, 
+            :last, 
+            { label_text: "Enrollment Status" } %>
         
         <div class="usa-form-group" id="school-hours-section" style="display: none;">
-          <%= form.label :school_hours, "Number of hours you attend school per week", class: "usa-label" %>
-          <%= form.number_field :school_hours, class: "usa-input", step: "0.5", min: "0" %>
+          <%= form.number_field :school_hours, "Number of hours you attend school per week", nil, step: "0.5", min: "0" %>
         </div>
       </fieldset>
       
@@ -57,8 +50,8 @@
 
 <script>
 function initializeEnrollmentForm() {
-  const halfTimeRadio = document.getElementById('enrollment_half_time_or_more');
-  const lessThanHalfTimeRadio = document.getElementById('enrollment_less_than_half_time');
+  const halfTimeRadio = document.getElementById('engagement_form_enrollment_status_half_time_or_more');
+  const lessThanHalfTimeRadio = document.getElementById('engagement_form_enrollment_status_less_than_half_time');
   const schoolHoursSection = document.getElementById('school-hours-section');
   
   if (!halfTimeRadio || !lessThanHalfTimeRadio || !schoolHoursSection) {

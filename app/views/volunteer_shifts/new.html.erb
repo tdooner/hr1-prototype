@@ -19,34 +19,16 @@
       </div>
     <% end %>
     
-    <%= form_with model: [@engagement_form, @volunteer_shift], local: true, class: "usa-form" do |form| %>
+    <%= form_with model: [@engagement_form, @volunteer_shift], local: true, class: "usa-form", builder: UswdsFormBuilder do |form| %>
       
       <fieldset class="usa-fieldset">
         <legend class="usa-legend--large">Volunteer Shift Details</legend>
         
-        <div class="usa-form-group">
-          <%= form.label :organization_name, "Organization Name", class: "usa-label" %>
-          <div class="usa-hint" id="organization-name-hint">
-            Enter the name of the nonprofit organization where you volunteered.
-          </div>
-          <%= form.text_field :organization_name, class: "usa-input", "aria-describedby": "organization-name-hint" %>
-        </div>
+        <%= form.text_field :organization_name, "Organization Name", "Enter the name of the nonprofit organization where you volunteered." %>
         
-        <div class="usa-form-group">
-          <%= form.label :shift_date, "Date of Volunteer Shift", class: "usa-label" %>
-          <div class="usa-hint" id="shift-date-hint">
-            Select the date when you completed this volunteer shift.
-          </div>
-          <%= form.date_field :shift_date, class: "usa-input", "aria-describedby": "shift-date-hint" %>
-        </div>
+        <%= form.date_field :shift_date, "Date of Volunteer Shift", "Select the date when you completed this volunteer shift." %>
         
-        <div class="usa-form-group">
-          <%= form.label :hours, "Number of Hours", class: "usa-label" %>
-          <div class="usa-hint" id="hours-hint">
-            Enter the number of hours you volunteered (e.g., 2.5 for 2 hours and 30 minutes).
-          </div>
-          <%= form.number_field :hours, class: "usa-input", step: "0.5", min: "0.5", "aria-describedby": "hours-hint" %>
-        </div>
+        <%= form.number_field :hours, "Number of Hours", "Enter the number of hours you volunteered (e.g., 2.5 for 2 hours and 30 minutes).", step: "0.5", min: "0.5" %>
       </fieldset>
       
       <div class="usa-form-group">
