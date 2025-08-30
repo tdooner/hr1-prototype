@@ -8,6 +8,10 @@ class EngagementForm < ApplicationRecord
   validates :enrollment_status, presence: true, on: :students_page
   validate :school_hours_required_when_less_than_half_time, on: :students_page
   
+  # Work program-specific validations
+  validates :work_program_name, presence: true, on: :work_programs_page
+  validates :hours_attended, presence: true, numericality: { greater_than: 0 }, on: :work_programs_page
+  
   has_many :volunteer_shifts, dependent: :destroy
   has_many :job_paychecks, dependent: :destroy
   
