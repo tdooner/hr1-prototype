@@ -24,6 +24,14 @@
       <%= form.label :email, "Email Address", class: "usa-label" %>
       <%= form.email_field :email, class: "usa-input", required: true %>
     </div>
+    
+    <div class="usa-form-group">
+      <%= form.label :application_date, "Application Date", class: "usa-label" %>
+      <div class="usa-hint" id="application-date-hint">
+        Select the date you are submitting this application. Information will be collected for the month prior to this date.
+      </div>
+      <%= form.date_field :application_date, class: "usa-input", required: true, "aria-describedby": "application-date-hint" %>
+    </div>
   </fieldset>
   
   <div class="usa-form-group">

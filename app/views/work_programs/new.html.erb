@@ -3,7 +3,7 @@
     <h1>Work Program Details</h1>
     
     <p class="usa-intro">
-      Please provide details about your work program to help verify that you meet the Community Engagement Requirements.
+      Please provide details about your work program participation in <%= @engagement_form.prior_month_name %> to help verify that you meet the Community Engagement Requirements.
     </p>
     
     <%= form_with model: @engagement_form, url: engagement_form_work_programs_path(@engagement_form), method: :post, local: true, class: "usa-form" do |form| %>

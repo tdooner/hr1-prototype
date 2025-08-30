@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Summaries", type: :request do
-  let(:engagement_form) { EngagementForm.create!(user_name: "Test User", email: "test@example.com") }
+  let(:engagement_form) { EngagementForm.create!(user_name: "Test User", email: "test@example.com", application_date: Date.current) }
 
   describe "GET /show" do
     it "returns http success for completed form" do

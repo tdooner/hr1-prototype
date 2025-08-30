@@ -3,7 +3,7 @@
     <h1>Add Paycheck</h1>
     
     <p class="usa-intro">
-      Please provide details about your paycheck.
+      Please provide details about your paycheck from <%= @engagement_form.prior_month_name %>.
     </p>
     
     <%= form_with model: [@engagement_form, @job_paycheck], local: true, class: "usa-form" do |form| %>

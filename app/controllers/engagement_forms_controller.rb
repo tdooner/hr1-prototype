@@ -1,6 +1,6 @@
 class EngagementFormsController < ApplicationController
   def new
-    @engagement_form = EngagementForm.new
+    @engagement_form = EngagementForm.new(application_date: Date.current)
   end
 
   def create
@@ -44,6 +44,6 @@ class EngagementFormsController < ApplicationController
   private
 
   def engagement_form_params
-    params.require(:engagement_form).permit(:user_name, :email)
+    params.require(:engagement_form).permit(:user_name, :email, :application_date)
   end
 end

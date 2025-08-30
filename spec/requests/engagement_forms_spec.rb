@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "EngagementForms", type: :request do
-  let(:engagement_form) { EngagementForm.create!(user_name: "Test User", email: "test@example.com") }
+  let(:engagement_form) { EngagementForm.create!(user_name: "Test User", email: "test@example.com", application_date: Date.current) }
 
   describe "GET /new" do
     it "returns http success" do
@@ -12,7 +12,7 @@ RSpec.describe "EngagementForms", type: :request do
 
   describe "POST /create" do
     it "creates a new engagement form and redirects to questions" do
-      post "/engagement_forms", params: { engagement_form: { user_name: "John Doe", email: "john@example.com" } }
+      post "/engagement_forms", params: { engagement_form: { user_name: "John Doe", email: "john@example.com", application_date: Date.current } }
       expect(response).to have_http_status(:redirect)
       expect(response).to redirect_to(new_engagement_form_question_path(EngagementForm.last))
     end
@@ -35,7 +35,7 @@ RSpec.describe "EngagementForms", type: :request do
 
   describe "PATCH /update" do
     it "updates the engagement form and redirects to review" do
-      patch "/engagement_forms/#{engagement_form.id}", params: { engagement_form: { user_name: "Updated Name", email: "updated@example.com" } }
+      patch "/engagement_forms/#{engagement_form.id}", params: { engagement_form: { user_name: "Updated Name", email: "updated@example.com", application_date: Date.current } }
       expect(response).to have_http_status(:redirect)
       expect(response).to redirect_to(review_summary_path(engagement_form))
       
@@ -46,7 +46,7 @@ RSpec.describe "EngagementForms", type: :request do
     end
 
     it "renders edit view with errors if validation fails" do
-              patch "/engagement_forms/#{engagement_form.id}", params: { engagement_form: { user_name: "", email: "invalid-email" } }
+              patch "/engagement_forms/#{engagement_form.id}", params: { engagement_form: { user_name: "", email: "invalid-email", application_date: nil } }
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.body).to include("Edit Basic Information")
     end

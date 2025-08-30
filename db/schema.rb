@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_30_213648) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_30_214857) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -30,6 +30,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_30_213648) do
     t.decimal "school_hours", precision: 5, scale: 2
     t.string "work_program_name"
     t.decimal "hours_attended", precision: 8, scale: 2
+    t.date "application_date"
   end
 
   create_table "job_paychecks", force: :cascade do |t|
