@@ -1,0 +1,30 @@
+<div class="grid-row">
+  <div class="grid-col-12">
+    <h1 class="usa-prose">Work Program Details</h1>
+    
+    <p class="usa-intro">
+      Please provide details about your work program to help verify that you meet the Community Engagement Requirements.
+    </p>
+    
+    <%= form_with url: work_programs_path, method: :post, local: true, class: "usa-form" do |form| %>
+      <%= form.hidden_field :engagement_form_id, value: @engagement_form.id %>
+      
+      <fieldset class="usa-fieldset">
+        <legend class="usa-legend">Work Program Details</legend>
+        
+        <div class="usa-form-group">
+          <%= form.label :work_program_details, "Please provide details about your work program:", class: "usa-label" %>
+          <div class="usa-hint" id="work-program-details-hint">
+            Include the program name, organization providing the program, hours spent in the program, and any income received.
+          </div>
+          <%= form.text_area :work_program_details, class: "usa-textarea", rows: 4, "aria-describedby": "work-program-details-hint" %>
+        </div>
+      </fieldset>
+      
+      <div class="usa-form-group">
+        <%= form.submit "Continue", class: "usa-button" %>
+        <%= link_to "Back", new_question_path(engagement_form_id: @engagement_form.id), class: "usa-button usa-button--outline" %>
+      </div>
+    <% end %>
+  </div>
+</div>

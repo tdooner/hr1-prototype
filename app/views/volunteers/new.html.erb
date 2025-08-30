@@ -1,0 +1,30 @@
+<div class="grid-row">
+  <div class="grid-col-12">
+    <h1 class="usa-prose">Volunteer Details</h1>
+    
+    <p class="usa-intro">
+      Please provide details about your volunteer work to help verify that you meet the Community Engagement Requirements.
+    </p>
+    
+    <%= form_with url: volunteers_path, method: :post, local: true, class: "usa-form" do |form| %>
+      <%= form.hidden_field :engagement_form_id, value: @engagement_form.id %>
+      
+      <fieldset class="usa-fieldset">
+        <legend class="usa-legend">Volunteer Details</legend>
+        
+        <div class="usa-form-group">
+          <%= form.label :volunteer_details, "Please provide details about your volunteer work:", class: "usa-label" %>
+          <div class="usa-hint" id="volunteer-details-hint">
+            Include the nonprofit organization name, type of volunteer work, hours volunteered per week, and duration of involvement.
+          </div>
+          <%= form.text_area :volunteer_details, class: "usa-textarea", rows: 4, "aria-describedby": "volunteer-details-hint" %>
+        </div>
+      </fieldset>
+      
+      <div class="usa-form-group">
+        <%= form.submit "Continue", class: "usa-button" %>
+        <%= link_to "Back", new_question_path(engagement_form_id: @engagement_form.id), class: "usa-button usa-button--outline" %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,10 +1,24 @@
 Rails.application.routes.draw do
-  # Community Engagement Form routes
+  get "questions/new"
+  get "questions/create"
+  # Community Engagement Form flow
   resources :engagement_forms, only: [:new, :create, :show] do
     member do
       get :pdf
     end
   end
+  
+  # Initial questions page
+  resources :questions, only: [:new, :create]
+  
+  # Individual engagement type flows
+  resources :jobs, only: [:new, :create]
+  resources :students, only: [:new, :create]
+  resources :work_programs, only: [:new, :create]
+  resources :volunteers, only: [:new, :create]
+  
+  # Summary page
+  get "summary/:engagement_form_id", to: "summary#show", as: :summary
   
   # Root route
   root "engagement_forms#new"

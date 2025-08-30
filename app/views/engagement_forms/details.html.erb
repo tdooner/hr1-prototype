@@ -1,0 +1,85 @@
+<div class="grid-row">
+  <div class="grid-col-12">
+    <h1 class="usa-prose">Provide Additional Details</h1>
+    
+    <p class="usa-intro">
+      Please provide additional details for each engagement type you selected. This information will help verify that you meet the Community Engagement Requirements.
+    </p>
+    
+    <%= form_with model: @engagement_form, url: submit_final_engagement_form_path(@engagement_form), method: :patch, local: true, class: "usa-form" do |form| %>
+      <% if @engagement_form.errors.any? %>
+        <div class="usa-alert usa-alert--error" role="alert">
+          <div class="usa-alert__body">
+            <h3 class="usa-alert__heading">Please correct the following errors:</h3>
+            <ul class="usa-alert__text">
+              <% @engagement_form.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+      
+      <% if @engagement_form.has_job? %>
+        <fieldset class="usa-fieldset">
+          <legend class="usa-legend">Employment Details</legend>
+          
+          <div class="usa-form-group">
+            <%= form.label :job_details, "Please provide details about your employment:", class: "usa-label" %>
+            <div class="usa-hint" id="job-details-hint">
+              Include your job title, employer name, hours worked per week, and income information.
+            </div>
+            <%= form.text_area :job_details, class: "usa-textarea", rows: 4, "aria-describedby": "job-details-hint" %>
+          </div>
+        </fieldset>
+      <% end %>
+      
+      <% if @engagement_form.is_student? %>
+        <fieldset class="usa-fieldset">
+          <legend class="usa-legend">Student Details</legend>
+          
+          <div class="usa-form-group">
+            <%= form.label :student_details, "Please provide details about your education:", class: "usa-label" %>
+            <div class="usa-hint" id="student-details-hint">
+              Include your school/institution name, program of study, enrollment status, and hours spent on coursework.
+            </div>
+            <%= form.text_area :student_details, class: "usa-textarea", rows: 4, "aria-describedby": "student-details-hint" %>
+          </div>
+        </fieldset>
+      <% end %>
+      
+      <% if @engagement_form.enrolled_work_program? %>
+        <fieldset class="usa-fieldset">
+          <legend class="usa-legend">Work Program Details</legend>
+          
+          <div class="usa-form-group">
+            <%= form.label :work_program_details, "Please provide details about your work program:", class: "usa-label" %>
+            <div class="usa-hint" id="work-program-details-hint">
+              Include the program name, organization providing the program, hours spent in the program, and any income received.
+            </div>
+            <%= form.text_area :work_program_details, class: "usa-textarea", rows: 4, "aria-describedby": "work-program-details-hint" %>
+          </div>
+        </fieldset>
+      <% end %>
+      
+      <% if @engagement_form.volunteers_nonprofit? %>
+        <fieldset class="usa-fieldset">
+          <legend class="usa-legend">Volunteer Details</legend>
+          
+          <div class="usa-form-group">
+            <%= form.label :volunteer_details, "Please provide details about your volunteer work:", class: "usa-label" %>
+            <div class="usa-hint" id="volunteer-details-hint">
+              Include the nonprofit organization name, type of volunteer work, hours volunteered per week, and duration of involvement.
+            </div>
+            <%= form.text_area :volunteer_details, class: "usa-textarea", rows: 4, "aria-describedby": "volunteer-details-hint" %>
+          </div>
+        </fieldset>
+      <% end %>
+      
+      <div class="usa-form-group">
+        <%= form.submit "Submit Form", class: "usa-button" %>
+        <%= link_to "Back", engagement_types_engagement_form_path(@engagement_form), class: "usa-button usa-button--outline" %>
+      </div>
+    <% end %>
+  </div>
+</div>

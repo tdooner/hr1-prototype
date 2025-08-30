@@ -1,45 +1,31 @@
 <div class="grid-row">
   <div class="grid-col-12">
-    <h1 class="usa-prose">Community Engagement Form Submitted</h1>
+    <h1 class="usa-prose">Community Engagement Form Summary</h1>
     
     <div class="usa-alert usa-alert--success" role="alert">
       <div class="usa-alert__body">
-        <h3 class="usa-alert__heading">Success!</h3>
-        <p class="usa-alert__text">Your community engagement form has been submitted successfully.</p>
+        <h3 class="usa-alert__heading">Form Completed Successfully!</h3>
+        <p class="usa-alert__text">Your community engagement form has been submitted. Below is a summary of your responses.</p>
       </div>
     </div>
     
     <div class="usa-summary-box">
       <div class="usa-summary-box__body">
-        <h3 class="usa-summary-box__heading">Form Summary</h3>
+        <h3 class="usa-summary-box__heading">Basic Information</h3>
         <div class="usa-summary-box__text">
           <p><strong>Name:</strong> <%= @engagement_form.user_name %></p>
           <p><strong>Email:</strong> <%= @engagement_form.email %></p>
           <p><strong>Organization:</strong> <%= @engagement_form.organization %></p>
-          
-          <h4 class="usa-summary-box__heading">Engagement Types:</h4>
-          <ul>
-            <% if @engagement_form.has_job? %>
-              <li>✅ Has a job</li>
-            <% end %>
-            <% if @engagement_form.is_student? %>
-              <li>✅ Is a student</li>
-            <% end %>
-            <% if @engagement_form.enrolled_work_program? %>
-              <li>✅ Enrolled in work program</li>
-            <% end %>
-            <% if @engagement_form.volunteers_nonprofit? %>
-              <li>✅ Volunteers with nonprofit</li>
-            <% end %>
-          </ul>
         </div>
       </div>
     </div>
     
-    <% if @engagement_form.job_details.present? %>
+    <h2 class="usa-prose">Engagement Activities</h2>
+    
+    <% if @engagement_form.has_job? %>
       <div class="usa-summary-box">
         <div class="usa-summary-box__body">
-          <h3 class="usa-summary-box__heading">Employment Details</h3>
+          <h3 class="usa-summary-box__heading">✅ Employment</h3>
           <div class="usa-summary-box__text">
             <p><%= @engagement_form.job_details %></p>
           </div>
@@ -47,10 +33,10 @@
       </div>
     <% end %>
     
-    <% if @engagement_form.student_details.present? %>
+    <% if @engagement_form.is_student? %>
       <div class="usa-summary-box">
         <div class="usa-summary-box__body">
-          <h3 class="usa-summary-box__heading">Student Details</h3>
+          <h3 class="usa-summary-box__heading">✅ Student Status</h3>
           <div class="usa-summary-box__text">
             <p><%= @engagement_form.student_details %></p>
           </div>
@@ -58,10 +44,10 @@
       </div>
     <% end %>
     
-    <% if @engagement_form.work_program_details.present? %>
+    <% if @engagement_form.enrolled_work_program? %>
       <div class="usa-summary-box">
         <div class="usa-summary-box__body">
-          <h3 class="usa-summary-box__heading">Work Program Details</h3>
+          <h3 class="usa-summary-box__heading">✅ Work Program</h3>
           <div class="usa-summary-box__text">
             <p><%= @engagement_form.work_program_details %></p>
           </div>
@@ -69,10 +55,10 @@
       </div>
     <% end %>
     
-    <% if @engagement_form.volunteer_details.present? %>
+    <% if @engagement_form.volunteers_nonprofit? %>
       <div class="usa-summary-box">
         <div class="usa-summary-box__body">
-          <h3 class="usa-summary-box__heading">Volunteer Details</h3>
+          <h3 class="usa-summary-box__heading">✅ Volunteer Work</h3>
           <div class="usa-summary-box__text">
             <p><%= @engagement_form.volunteer_details %></p>
           </div>
@@ -80,8 +66,17 @@
       </div>
     <% end %>
     
+    <% if !@engagement_form.has_job? && !@engagement_form.is_student? && !@engagement_form.enrolled_work_program? && !@engagement_form.volunteers_nonprofit? %>
+      <div class="usa-alert usa-alert--warning" role="alert">
+        <div class="usa-alert__body">
+          <h3 class="usa-alert__heading">No Engagement Activities Selected</h3>
+          <p class="usa-alert__text">You indicated that you do not participate in any of the qualifying engagement activities. Please review the Community Engagement Requirements to ensure you meet the necessary criteria.</p>
+        </div>
+      </div>
+    <% end %>
+    
     <div class="usa-form-group">
-      <%= link_to "Download PDF", engagement_form_pdf_path(@engagement_form, format: :pdf), class: "usa-button" %>
+      <%= link_to "Download PDF", engagement_form_path(@engagement_form, format: :pdf), class: "usa-button" %>
       <%= link_to "Submit Another Form", new_engagement_form_path, class: "usa-button usa-button--outline" %>
     </div>
   </div>
