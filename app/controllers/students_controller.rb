@@ -7,8 +7,15 @@ class StudentsController < ApplicationController
     @engagement_form = EngagementForm.find(params[:engagement_form_id])
     
     # Handle both nested and direct parameters
-    student_details = params[:engagement_form]&.dig(:student_details) || params[:student_details]
-    @engagement_form.update(student_details: student_details)
+    school_name = params[:engagement_form]&.dig(:school_name) || params[:school_name]
+    enrollment_status = params[:engagement_form]&.dig(:enrollment_status) || params[:enrollment_status]
+    school_hours = params[:engagement_form]&.dig(:school_hours) || params[:school_hours]
+    
+    @engagement_form.update(
+      school_name: school_name,
+      enrollment_status: enrollment_status,
+      school_hours: school_hours
+    )
     
     # Use the new next_path method
     redirect_to next_path(@engagement_form)

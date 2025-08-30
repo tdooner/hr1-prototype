@@ -12,11 +12,27 @@
         <legend class="usa-legend">Student Details</legend>
         
         <div class="usa-form-group">
-          <%= form.label :student_details, "Please provide details about your education:", class: "usa-label" %>
-          <div class="usa-hint" id="student-details-hint">
-            Include your school/institution name, program of study, enrollment status, and hours spent on coursework.
-          </div>
-          <%= form.text_area :student_details, class: "usa-textarea", rows: 4, "aria-describedby": "student-details-hint" %>
+          <%= form.label :school_name, "School Name:", class: "usa-label" %>
+          <%= form.text_field :school_name, class: "usa-input" %>
+        </div>
+        
+        <div class="usa-form-group">
+          <fieldset class="usa-fieldset">
+            <legend class="usa-legend">Enrollment Status</legend>
+            <div class="usa-radio">
+              <%= form.radio_button :enrollment_status, "half_time_or_more", class: "usa-radio__input", id: "enrollment_half_time_or_more" %>
+              <%= form.label :enrollment_status_half_time_or_more, "Enrolled at least half-time", class: "usa-radio__label", for: "enrollment_half_time_or_more" %>
+            </div>
+            <div class="usa-radio">
+              <%= form.radio_button :enrollment_status, "less_than_half_time", class: "usa-radio__input", id: "enrollment_less_than_half_time" %>
+              <%= form.label :enrollment_status_less_than_half_time, "Enrolled less than half-time", class: "usa-radio__label", for: "enrollment_less_than_half_time" %>
+            </div>
+          </fieldset>
+        </div>
+        
+        <div class="usa-form-group" id="school-hours-section" style="display: none;">
+          <%= form.label :school_hours, "Number of hours you attend school per week:", class: "usa-label" %>
+          <%= form.number_field :school_hours, class: "usa-input", step: "0.5", min: "0" %>
         </div>
       </fieldset>
       
@@ -27,3 +43,38 @@
     <% end %>
   </div>
 </div>
+
+<script>
+function initializeEnrollmentForm() {
+  const halfTimeRadio = document.getElementById('enrollment_half_time_or_more');
+  const lessThanHalfTimeRadio = document.getElementById('enrollment_less_than_half_time');
+  const schoolHoursSection = document.getElementById('school-hours-section');
+  
+  if (!halfTimeRadio || !lessThanHalfTimeRadio || !schoolHoursSection) {
+    return; // Elements not found, exit early
+  }
+  
+  function toggleSchoolHours() {
+    if (lessThanHalfTimeRadio.checked) {
+      schoolHoursSection.style.display = 'block';
+    } else {
+      schoolHoursSection.style.display = 'none';
+    }
+  }
+  
+  // Remove existing event listeners to prevent duplicates
+  halfTimeRadio.removeEventListener('change', toggleSchoolHours);
+  lessThanHalfTimeRadio.removeEventListener('change', toggleSchoolHours);
+  
+  // Add event listeners
+  halfTimeRadio.addEventListener('change', toggleSchoolHours);
+  lessThanHalfTimeRadio.addEventListener('change', toggleSchoolHours);
+  
+  // Initialize on page load
+  toggleSchoolHours();
+}
+
+// Listen for both DOMContentLoaded (for initial page load) and turbo:load (for Turbo navigation)
+document.addEventListener('DOMContentLoaded', initializeEnrollmentForm);
+document.addEventListener('turbo:load', initializeEnrollmentForm);
+</script>

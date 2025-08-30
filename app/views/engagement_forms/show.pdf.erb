@@ -68,10 +68,22 @@
     </div>
   <% end %>
   
-  <% if @engagement_form.student_details.present? %>
+  <% if @engagement_form.is_student? %>
     <div class="field">
       <span class="field-label">Student Details:</span>
-      <div class="field-value"><%= @engagement_form.student_details %></div>
+      <div class="field-value">
+        <% if @engagement_form.school_name.present? %>
+          <p><strong>School:</strong> <%= @engagement_form.school_name %></p>
+        <% end %>
+        <% if @engagement_form.enrollment_status == "half_time_or_more" %>
+          <p><strong>Enrollment Status:</strong> Enrolled at least half-time</p>
+        <% elsif @engagement_form.enrollment_status == "less_than_half_time" %>
+          <p><strong>Enrollment Status:</strong> Enrolled less than half-time</p>
+          <% if @engagement_form.school_hours.present? %>
+            <p><strong>School Hours per Week:</strong> <%= @engagement_form.school_hours %> hours</p>
+          <% end %>
+        <% end %>
+      </div>
     </div>
   <% end %>
   

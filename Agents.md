@@ -75,7 +75,9 @@ enrolled_work_program: boolean
 volunteers_nonprofit: boolean
 
 # Detail fields
-student_details: text
+school_name: string
+enrollment_status: string
+school_hours: decimal
 work_program_details: text
 
 # Associations
