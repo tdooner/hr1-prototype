@@ -12,11 +12,19 @@
         <legend class="usa-legend">Work Program Details</legend>
         
         <div class="usa-form-group">
-          <%= form.label :work_program_details, "Please provide details about your work program:", class: "usa-label" %>
-          <div class="usa-hint" id="work-program-details-hint">
-            Include the program name, organization providing the program, hours spent in the program, and any income received.
+          <%= form.label :work_program_name, "Work Program Name:", class: "usa-label" %>
+          <div class="usa-hint" id="work-program-name-hint">
+            Enter the name of the work program you are enrolled in.
           </div>
-          <%= form.text_area :work_program_details, class: "usa-textarea", rows: 4, "aria-describedby": "work-program-details-hint" %>
+          <%= form.text_field :work_program_name, class: "usa-input", "aria-describedby": "work-program-name-hint" %>
+        </div>
+        
+        <div class="usa-form-group">
+          <%= form.label :hours_attended, "Hours Attended:", class: "usa-label" %>
+          <div class="usa-hint" id="hours-attended-hint">
+            Enter the total number of hours you have attended in this work program.
+          </div>
+          <%= form.number_field :hours_attended, class: "usa-input", step: "0.01", min: "0", "aria-describedby": "hours-attended-hint" %>
         </div>
       </fieldset>
       

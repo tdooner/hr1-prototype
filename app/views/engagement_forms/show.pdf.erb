@@ -87,10 +87,17 @@
     </div>
   <% end %>
   
-  <% if @engagement_form.work_program_details.present? %>
+  <% if @engagement_form.enrolled_work_program? %>
     <div class="field">
       <span class="field-label">Work Program Details:</span>
-      <div class="field-value"><%= @engagement_form.work_program_details %></div>
+      <div class="field-value">
+        <% if @engagement_form.work_program_name.present? %>
+          <p><strong>Work Program Name:</strong> <%= @engagement_form.work_program_name %></p>
+        <% end %>
+        <% if @engagement_form.hours_attended.present? %>
+          <p><strong>Hours Attended:</strong> <%= @engagement_form.hours_attended %> hours</p>
+        <% end %>
+      </div>
     </div>
   <% end %>
   

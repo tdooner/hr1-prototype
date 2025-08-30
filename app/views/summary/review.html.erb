@@ -109,7 +109,12 @@
             <%= link_to "Edit", new_engagement_form_work_program_path(@engagement_form), class: "usa-button usa-button--small usa-button--outline", style: "float: right;" %>
           </h3>
           <div class="usa-summary-box__text">
-            <p><%= @engagement_form.work_program_details %></p>
+            <% if @engagement_form.work_program_name.present? %>
+              <p><strong>Work Program Name:</strong> <%= @engagement_form.work_program_name %></p>
+            <% end %>
+            <% if @engagement_form.hours_attended.present? %>
+              <p><strong>Hours Attended:</strong> <%= @engagement_form.hours_attended %> hours</p>
+            <% end %>
           </div>
         </div>
       </div>

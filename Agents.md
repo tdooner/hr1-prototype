@@ -78,7 +78,8 @@ volunteers_nonprofit: boolean
 school_name: string
 enrollment_status: string
 school_hours: decimal
-work_program_details: text
+work_program_name: string
+hours_attended: decimal
 
 # Associations
 has_many :volunteer_shifts, dependent: :destroy

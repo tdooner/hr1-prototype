@@ -7,8 +7,9 @@ class WorkProgramsController < ApplicationController
     @engagement_form = EngagementForm.find(params[:engagement_form_id])
     
     # Handle both nested and direct parameters
-    work_program_details = params[:engagement_form]&.dig(:work_program_details) || params[:work_program_details]
-    @engagement_form.update(work_program_details: work_program_details)
+    work_program_params = params[:engagement_form]&.permit(:work_program_name, :hours_attended) || 
+                         params.permit(:work_program_name, :hours_attended)
+    @engagement_form.update(work_program_params)
     
     # Use the new next_path method
     redirect_to next_path(@engagement_form)
