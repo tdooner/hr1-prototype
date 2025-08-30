@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Community Engagement Form - <%= @engagement_form.user_name %></title>
+  <style>
+    body {
+      font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 12px;
+      line-height: 1.4;
+      color: #1b1b1b;
+      margin: 0;
+      padding: 20px;
+    }
+    
+    .header {
+      text-align: center;
+      border-bottom: 2px solid #1b1b1b;
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .header h1 {
+      font-size: 24px;
+      margin: 0;
+      color: #1b1b1b;
+    }
+    
+    .header p {
+      font-size: 14px;
+      margin: 5px 0;
+      color: #565c65;
+    }
+    
+    .section {
+      margin-bottom: 30px;
+    }
+    
+    .section h2 {
+      font-size: 16px;
+      border-bottom: 1px solid #565c65;
+      padding-bottom: 5px;
+      margin-bottom: 15px;
+    }
+    
+    .field {
+      margin-bottom: 15px;
+    }
+    
+    .field-label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    .field-value {
+      padding: 8px;
+      background-color: #f0f0f0;
+      border: 1px solid #565c65;
+      min-height: 20px;
+    }
+    
+    .footer {
+      margin-top: 50px;
+      text-align: center;
+      font-size: 10px;
+      color: #565c65;
+      border-top: 1px solid #565c65;
+      padding-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <%= yield %>
+</body>
+</html>

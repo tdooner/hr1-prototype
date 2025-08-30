@@ -1,0 +1,28 @@
+<div class="grid-row">
+  <div class="grid-col-12">
+    <h1 class="usa-prose">Community Engagement Form Submitted</h1>
+    
+    <div class="usa-alert usa-alert--success" role="alert">
+      <div class="usa-alert__body">
+        <h3 class="usa-alert__heading">Success!</h3>
+        <p class="usa-alert__text">Your community engagement form has been submitted successfully.</p>
+      </div>
+    </div>
+    
+    <div class="usa-summary-box">
+      <div class="usa-summary-box__body">
+        <h3 class="usa-summary-box__heading">Form Summary</h3>
+        <div class="usa-summary-box__text">
+          <p><strong>Name:</strong> <%= @engagement_form.user_name %></p>
+          <p><strong>Email:</strong> <%= @engagement_form.email %></p>
+          <p><strong>Organization:</strong> <%= @engagement_form.organization %></p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="usa-form-group">
+      <%= link_to "Download PDF", engagement_form_pdf_path(@engagement_form, format: :pdf), class: "usa-button" %>
+      <%= link_to "Submit Another Form", new_engagement_form_path, class: "usa-button usa-button--outline" %>
+    </div>
+  </div>
+</div>
