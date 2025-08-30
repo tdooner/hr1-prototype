@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resources :students, only: [:new, :create]
     resources :work_programs, only: [:new, :create]
     resources :volunteers, only: [:new, :create]
+    resources :volunteer_shifts, only: [:new, :create]
   end
   
   # Summary pages

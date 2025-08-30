@@ -1,29 +1,66 @@
 <div class="grid-row">
   <div class="grid-col-12">
-    <h1 class="usa-prose">Volunteer Details</h1>
+    <h1 class="usa-prose">Volunteer Hours</h1>
     
     <p class="usa-intro">
-      Please provide details about your volunteer work to help verify that you meet the Community Engagement Requirements.
+      Please add your volunteer shifts to help verify that you meet the Community Engagement Requirements.
     </p>
-    
-    <%= form_with model: @engagement_form, url: engagement_form_volunteers_path(@engagement_form), method: :post, local: true, class: "usa-form" do |form| %>
-      
-      <fieldset class="usa-fieldset">
-        <legend class="usa-legend">Volunteer Details</legend>
-        
-        <div class="usa-form-group">
-          <%= form.label :volunteer_details, "Please provide details about your volunteer work:", class: "usa-label" %>
-          <div class="usa-hint" id="volunteer-details-hint">
-            Include the nonprofit organization name, type of volunteer work, hours volunteered per week, and duration of involvement.
-          </div>
-          <%= form.text_area :volunteer_details, class: "usa-textarea", rows: 4, "aria-describedby": "volunteer-details-hint" %>
+
+    <% if notice %>
+      <div class="usa-alert usa-alert--success" role="alert">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text"><%= notice %></p>
         </div>
-      </fieldset>
-      
-      <div class="usa-form-group">
-        <%= form.submit "Continue", class: "usa-button" %>
-        <%= link_to "Back", new_engagement_form_question_path(@engagement_form), class: "usa-button usa-button--outline" %>
       </div>
     <% end %>
+
+    <% if @volunteer_shifts.any? %>
+      <div class="usa-table-container--scrollable" tabindex="0">
+        <table class="usa-table">
+          <caption>Your Volunteer Shifts</caption>
+          <thead>
+            <tr>
+              <th scope="col">Organization</th>
+              <th scope="col">Date</th>
+              <th scope="col">Hours</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @volunteer_shifts.each do |shift| %>
+              <tr>
+                <td><%= shift.organization_name %></td>
+                <td><%= shift.shift_date.strftime("%B %d, %Y") %></td>
+                <td><%= shift.hours %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="usa-summary-box">
+        <div class="usa-summary-box__body">
+          <h3 class="usa-summary-box__heading">
+            Total Volunteer Hours
+          </h3>
+          <div class="usa-summary-box__text">
+            <p class="font-sans-3xl"><%= @volunteer_shifts.sum(&:hours) %> hours</p>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <div class="usa-alert usa-alert--info" role="alert">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">No volunteer shifts have been added yet. Click "Add Volunteer Hours" to get started.</p>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="usa-form-group">
+      <%= link_to "Add Volunteer Hours", new_engagement_form_volunteer_shift_path(@engagement_form), class: "usa-button" %>
+      <%= form_with url: engagement_form_volunteers_path(@engagement_form), method: :post, local: true, style: "display: inline;" do |form| %>
+        <%= form.submit "Continue", class: "usa-button usa-button--outline" %>
+      <% end %>
+      <%= link_to "Back", new_engagement_form_question_path(@engagement_form), class: "usa-button usa-button--outline" %>
+    </div>
   </div>
 </div>

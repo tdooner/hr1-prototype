@@ -28,8 +28,14 @@
    - Jobs (`/jobs/new`) - Employment details
    - Students (`/students/new`) - Student details  
    - Work Programs (`/work_programs/new`) - Work program details
-   - Volunteers (`/volunteers/new`) - Volunteer details
+   - Volunteers (`/volunteers/new`) - Volunteer shifts list and management
 4. **Summary Page** (`/summary/:id`) - Complete overview with PDF download
+
+### Volunteer Management Flow
+1. **Volunteers Page** (`/volunteers/new`) - Lists all volunteer shifts with total hours
+2. **Add Volunteer Shift** (`/volunteer_shifts/new`) - Form to add new shift with organization, date, and hours
+3. **Return to Volunteers** - After saving, user returns to see updated list
+4. **Continue to Summary** - Proceeds to final review with all shifts displayed
 
 ### Key Design Decisions
 
@@ -67,7 +73,29 @@ volunteers_nonprofit: boolean
 job_details: text
 student_details: text
 work_program_details: text
-volunteer_details: text
+
+# Associations
+has_many :volunteer_shifts, dependent: :destroy
+```
+
+### VolunteerShift Model
+```ruby
+# Fields
+engagement_form_id: references
+organization_name: string
+shift_date: date
+hours: decimal
+
+# Associations
+belongs_to :engagement_form
+
+# Validations
+validates :organization_name, presence: true
+validates :shift_date, presence: true
+validates :hours, presence: true, numericality: { greater_than: 0 }
+
+# Scopes
+scope :ordered_by_date, -> { order(shift_date: :desc) }
 ```
 
 ## Key Controllers
@@ -86,6 +114,11 @@ volunteer_details: text
 - `new` - Detail input form
 - `create` - Saves details, routes to next relevant page or summary
 - `skip?` - Class method that determines if the controller should be skipped based on engagement form state
+
+### VolunteerShiftsController
+- `new` - Form to add a new volunteer shift
+- `create` - Saves volunteer shift and redirects back to volunteers page
+- Handles validation errors and success messages
 
 ### SummaryController
 - `show` - Final summary with PDF download link
@@ -176,6 +209,7 @@ resources :jobs, only: [:new, :create]
 resources :students, only: [:new, :create]
 resources :work_programs, only: [:new, :create]
 resources :volunteers, only: [:new, :create]
+resources :volunteer_shifts, only: [:new, :create]
 
 # Summary
 get "summary/:engagement_form_id", to: "summary#show", as: :summary
@@ -198,6 +232,7 @@ WickedPdf.config = {
 - **Layout:** `app/views/layouts/pdf.html.erb` - PDF-specific styling
 - **Template:** `app/views/engagement_forms/show.pdf.erb` - Content template
 - **Features:** Professional formatting, conditional sections, complete data display
+- **Volunteer Data:** Structured table showing volunteer shifts with organization, date, hours, and total
 
 ## Styling Implementation
 
@@ -281,6 +316,8 @@ gem "wkhtmltopdf-binary"
 3. **Data Export:** Additional export formats (CSV, Excel)
 4. **User Authentication:** User accounts and form history
 5. **Admin Interface:** Dashboard for viewing all submissions
+6. **Volunteer Shift Management:** Edit/delete functionality for volunteer shifts
+7. **Bulk Import:** CSV import for volunteer shifts
 
 ### Technical Debt
 1. **Error Handling:** More robust error pages and validation messages

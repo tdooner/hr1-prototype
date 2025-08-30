@@ -89,11 +89,35 @@
       <div class="usa-summary-box">
         <div class="usa-summary-box__body">
           <h3 class="usa-summary-box__heading">
-            Volunteer Details
+            Volunteer Hours
             <%= link_to "Edit", new_engagement_form_volunteer_path(@engagement_form), class: "usa-button usa-button--small usa-button--outline", style: "float: right;" %>
           </h3>
           <div class="usa-summary-box__text">
-            <p><%= @engagement_form.volunteer_details %></p>
+            <% if @engagement_form.volunteer_shifts.any? %>
+              <div class="usa-table-container--scrollable" tabindex="0">
+                <table class="usa-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Organization</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Hours</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% @engagement_form.volunteer_shifts.ordered_by_date.each do |shift| %>
+                      <tr>
+                        <td><%= shift.organization_name %></td>
+                        <td><%= shift.shift_date.strftime("%B %d, %Y") %></td>
+                        <td><%= shift.hours %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+              <p><strong>Total Hours:</strong> <%= @engagement_form.volunteer_shifts.sum(&:hours) %></p>
+            <% else %>
+              <p>No volunteer shifts have been added yet.</p>
+            <% end %>
           </div>
         </div>
       </div>

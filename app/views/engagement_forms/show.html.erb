@@ -69,12 +69,32 @@
       </div>
     <% end %>
     
-    <% if @engagement_form.volunteer_details.present? %>
+    <% if @engagement_form.volunteers_nonprofit? && @engagement_form.volunteer_shifts.any? %>
       <div class="usa-summary-box">
         <div class="usa-summary-box__body">
-          <h3 class="usa-summary-box__heading">Volunteer Details</h3>
+          <h3 class="usa-summary-box__heading">Volunteer Hours</h3>
           <div class="usa-summary-box__text">
-            <p><%= @engagement_form.volunteer_details %></p>
+            <div class="usa-table-container--scrollable" tabindex="0">
+              <table class="usa-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Organization</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Hours</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @engagement_form.volunteer_shifts.ordered_by_date.each do |shift| %>
+                    <tr>
+                      <td><%= shift.organization_name %></td>
+                      <td><%= shift.shift_date.strftime("%B %d, %Y") %></td>
+                      <td><%= shift.hours %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+            <p><strong>Total Hours:</strong> <%= @engagement_form.volunteer_shifts.sum(&:hours) %></p>
           </div>
         </div>
       </div>

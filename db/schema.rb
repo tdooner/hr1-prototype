@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_30_192232) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_30_200815) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -30,4 +30,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_30_192232) do
     t.text "volunteer_details"
     t.boolean "completed"
   end
+
+  create_table "volunteer_shifts", force: :cascade do |t|
+    t.bigint "engagement_form_id", null: false
+    t.string "organization_name"
+    t.date "shift_date"
+    t.decimal "hours"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["engagement_form_id"], name: "index_volunteer_shifts_on_engagement_form_id"
+  end
+
+  add_foreign_key "volunteer_shifts", "engagement_forms"
 end
