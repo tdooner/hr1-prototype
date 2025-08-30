@@ -1,18 +1,10 @@
 <div class="grid-row">
-  <div class="grid-col-12">
-    <h1 class="usa-prose">Employment Details</h1>
+  <div class="grid-col-12 usa-prose">
+    <h1>Employment Details</h1>
     
     <p class="usa-intro">
       Please add your paychecks to help verify that you meet the Community Engagement Requirements.
     </p>
-
-    <% if notice %>
-      <div class="usa-alert usa-alert--success" role="alert">
-        <div class="usa-alert__body">
-          <p class="usa-alert__text"><%= notice %></p>
-        </div>
-      </div>
-    <% end %>
 
     <% if @engagement_form.job_paychecks.any? %>
       <div class="usa-table-container--scrollable" tabindex="0">
