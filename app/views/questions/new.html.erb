@@ -10,30 +10,15 @@
       </p>
     </div>
     
-    <%= form_with model: @engagement_form, url: engagement_form_questions_path(@engagement_form), method: :post, local: true, class: "usa-form" do |form| %>
+    <%= form_with model: @engagement_form, url: engagement_form_questions_path(@engagement_form), method: :post, local: true, class: "usa-form", builder: UswdsFormBuilder do |form| %>
       
       <fieldset class="usa-fieldset">
         <legend class="usa-legend--large">Check any of these that apply:</legend>
         
-        <div class="usa-checkbox">
-          <%= form.check_box :has_job, { class: "usa-checkbox__input" }, "yes", "no" %>
-          <%= form.label :has_job, "I have a job", class: "usa-checkbox__label" %>
-        </div>
-        
-        <div class="usa-checkbox">
-          <%= form.check_box :is_student, { class: "usa-checkbox__input" }, "yes", "no" %>
-          <%= form.label :is_student, "I am a student", class: "usa-checkbox__label" %>
-        </div>
-        
-        <div class="usa-checkbox">
-          <%= form.check_box :enrolled_work_program, { class: "usa-checkbox__input" }, "yes", "no" %>
-          <%= form.label :enrolled_work_program, "I am enrolled in a work program", class: "usa-checkbox__label" %>
-        </div>
-        
-        <div class="usa-checkbox">
-          <%= form.check_box :volunteers_nonprofit, { class: "usa-checkbox__input" }, "yes", "no" %>
-          <%= form.label :volunteers_nonprofit, "I volunteer with a nonprofit organization", class: "usa-checkbox__label" %>
-        </div>
+        <%= form.check_box :has_job, "I have a job", nil, {}, "yes", "no" %>
+        <%= form.check_box :is_student, "I am a student", nil, {}, "yes", "no" %>
+        <%= form.check_box :enrolled_work_program, "I am enrolled in a work program", nil, {}, "yes", "no" %>
+        <%= form.check_box :volunteers_nonprofit, "I volunteer with a nonprofit organization", nil, {}, "yes", "no" %>
       </fieldset>
       
       <div class="usa-form-group">

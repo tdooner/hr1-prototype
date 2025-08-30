@@ -47,9 +47,13 @@ class UswdsFormBuilder < ActionView::Helpers::FormBuilder
     super
   end
 
-  def check_box(method, options = {}, checked_value = "1", unchecked_value = "0")
-    add_error_class_to_options!(method, options)
-    super
+  def check_box(method, label_text, hint_text = nil, options = {}, checked_value = "1", unchecked_value = "0")
+    render_checkbox_group(method, label_text, hint_text) do
+      add_error_class_to_options!(method, options)
+      # Always add usa-checkbox__input and usa-checkbox__input--tile classes
+      options[:class] = [options[:class], "usa-checkbox__input", "usa-checkbox__input--tile"].compact.join(" ")
+      super(method, options, checked_value, unchecked_value)
+    end
   end
 
   def collection_radio_buttons(method, collection, value_method, label_method, options = {}, html_options = {})
@@ -57,7 +61,7 @@ class UswdsFormBuilder < ActionView::Helpers::FormBuilder
       add_radio_error_class_to_options!(method, html_options)
       super(method, collection, value_method, label_method, options, html_options) do |builder|
         @template.content_tag(:div, class: "usa-radio") do
-          builder.radio_button(class: "usa-radio__input") + 
+          builder.radio_button(class: "usa-radio__input usa-radio__input--tile") + 
           builder.label(class: "usa-radio__label")
         end
       end
@@ -75,6 +79,16 @@ class UswdsFormBuilder < ActionView::Helpers::FormBuilder
         label(method, label_text, class: "usa-label"),
         hint_text ? hint_element(method, hint_text) : nil,
         yield,
+        error_message_for(method)
+      ].compact)
+    end
+  end
+
+  def render_checkbox_group(method, label_text, hint_text = nil)
+    @template.content_tag(:div, class: "usa-checkbox") do
+      safe_join([
+        hint_text ? hint_element(method, hint_text) : nil,
+        yield + label(method, label_text, class: "usa-checkbox__label"),
         error_message_for(method)
       ].compact)
     end
