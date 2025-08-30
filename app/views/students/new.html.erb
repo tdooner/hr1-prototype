@@ -80,5 +80,5 @@ function initializeEnrollmentForm() {
 
 // Listen for both DOMContentLoaded (for initial page load) and turbo:load (for Turbo navigation)
 document.addEventListener('DOMContentLoaded', initializeEnrollmentForm);
-document.addEventListener('turbo:load', initializeEnrollmentForm);
+document.addEventListener('turbo:render', initializeEnrollmentForm);
 </script>

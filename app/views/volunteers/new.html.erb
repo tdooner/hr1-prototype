@@ -49,10 +49,13 @@
 
     <div class="usa-form-group">
       <%= link_to "Add Volunteer Hours", new_engagement_form_volunteer_shift_path(@engagement_form), class: "usa-button" %>
-      <%= form_with url: engagement_form_volunteers_path(@engagement_form), method: :post, local: true, style: "display: inline;" do |form| %>
-        <%= form.submit "Continue", class: "usa-button usa-button--outline" %>
+    </div>
+
+    <div class="usa-form-group">
+      <%= form_with url: engagement_form_volunteers_path(@engagement_form), method: :post, local: true do |form| %>
+        <%= form.submit "Continue", class: "usa-button" %>
+        <%= link_to "Back", new_engagement_form_question_path(@engagement_form), class: "usa-button usa-button--outline" %>
       <% end %>
-      <%= link_to "Back", new_engagement_form_question_path(@engagement_form), class: "usa-button usa-button--outline" %>
     </div>
   </div>
 </div>
