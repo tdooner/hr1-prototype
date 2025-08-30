@@ -80,13 +80,89 @@ volunteer_details: text
 ### QuestionsController  
 - `new` - Single page with all engagement type questions
 - `create` - Saves boolean flags, conditionally routes to detail pages
+- `skip?` - Class method that always returns false (first step)
 
 ### Detail Controllers (Jobs, Students, WorkPrograms, Volunteers)
 - `new` - Detail input form
 - `create` - Saves details, routes to next relevant page or summary
+- `skip?` - Class method that determines if the controller should be skipped based on engagement form state
 
 ### SummaryController
 - `show` - Final summary with PDF download link
+
+## Dynamic Routing System
+
+### Overview
+The application uses a centralized routing system in `ApplicationController` that dynamically determines the next step in the form flow based on the current controller and the engagement form's state.
+
+### Implementation
+
+#### Controller Order
+```ruby
+CONTROLLER_ORDER = [
+  QuestionsController,
+  JobsController,
+  StudentsController,
+  WorkProgramsController,
+  VolunteersController
+].freeze
+```
+
+#### Skip Logic
+Each controller implements a `skip?` class method that determines whether it should be skipped:
+
+```ruby
+# JobsController
+def self.skip?(engagement_form)
+  !engagement_form.has_job?
+end
+
+# StudentsController  
+def self.skip?(engagement_form)
+  !engagement_form.is_student?
+end
+
+# WorkProgramsController
+def self.skip?(engagement_form)
+  !engagement_form.enrolled_work_program?
+end
+
+# VolunteersController
+def self.skip?(engagement_form)
+  !engagement_form.volunteers_nonprofit?
+end
+```
+
+#### Next Path Method
+The `next_path` method in `ApplicationController` finds the current controller's position in the order and returns the path to the next non-skipped controller:
+
+```ruby
+def next_path(engagement_form, current_controller_class = self.class)
+  current_index = CONTROLLER_ORDER.index(current_controller_class)
+  
+  # If current controller is not in the order, or we're at the end, go to summary
+  return review_summary_path(engagement_form.id) if current_index.nil? || current_index == CONTROLLER_ORDER.length - 1
+  
+  # Find the next controller that should not be skipped
+  next_index = current_index + 1
+  while next_index < CONTROLLER_ORDER.length
+    next_controller = CONTROLLER_ORDER[next_index]
+    unless next_controller.skip?(engagement_form)
+      return send("new_engagement_form_#{next_controller.name.underscore.gsub('_controller', '')}_path", engagement_form)
+    end
+    next_index += 1
+  end
+  
+  # If no next controller found, go to summary
+  review_summary_path(engagement_form.id)
+end
+```
+
+### Benefits
+- **Centralized Logic:** All routing logic is in one place
+- **Maintainable:** Adding new steps only requires updating the order array and adding a skip method
+- **Testable:** Comprehensive test coverage for all routing scenarios
+- **Flexible:** Easy to change the order or skip conditions
 
 ## Routes Configuration
 

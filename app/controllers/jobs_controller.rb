@@ -10,23 +10,12 @@ class JobsController < ApplicationController
     job_details = params[:engagement_form]&.dig(:job_details) || params[:job_details]
     @engagement_form.update(job_details: job_details)
     
-    # Determine next step based on remaining engagement types
-    next_step = determine_next_step
-    
-    redirect_to next_step
+    # Use the new next_path method
+    redirect_to next_path(@engagement_form)
   end
   
-  private
-  
-  def determine_next_step
-    if @engagement_form.is_student?
-      new_engagement_form_student_path(@engagement_form)
-    elsif @engagement_form.enrolled_work_program?
-      new_engagement_form_work_program_path(@engagement_form)
-    elsif @engagement_form.volunteers_nonprofit?
-      new_engagement_form_volunteer_path(@engagement_form)
-    else
-      review_summary_path(@engagement_form.id)
-    end
+  # Class method to determine if this controller should be skipped
+  def self.skip?(engagement_form)
+    !engagement_form.has_job?
   end
 end

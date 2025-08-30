@@ -18,27 +18,13 @@ class QuestionsController < ApplicationController
       volunteers_nonprofit: engagement_params[:volunteers_nonprofit] == "yes"
     )
     
-    # Determine the next step based on the answers
-    next_step = determine_next_step(engagement_params)
-    
-    redirect_to next_step
+    # Use the new next_path method
+    redirect_to next_path(@engagement_form)
   end
   
-  private
-  
-  def determine_next_step(params)
-    # Check each engagement type in order and route to the first one that's "yes"
-    if params[:has_job] == "yes"
-      new_engagement_form_job_path(@engagement_form)
-    elsif params[:is_student] == "yes"
-      new_engagement_form_student_path(@engagement_form)
-    elsif params[:enrolled_work_program] == "yes"
-      new_engagement_form_work_program_path(@engagement_form)
-    elsif params[:volunteers_nonprofit] == "yes"
-      new_engagement_form_volunteer_path(@engagement_form)
-    else
-      # If none are selected, go to review page
-      review_summary_path(@engagement_form.id)
-    end
+  # Class method to determine if this controller should be skipped
+  # Questions is always the first step, so it's never skipped
+  def self.skip?(engagement_form)
+    false
   end
 end

@@ -10,19 +10,12 @@ class WorkProgramsController < ApplicationController
     work_program_details = params[:engagement_form]&.dig(:work_program_details) || params[:work_program_details]
     @engagement_form.update(work_program_details: work_program_details)
     
-    # Determine next step based on remaining engagement types
-    next_step = determine_next_step
-    
-    redirect_to next_step
+    # Use the new next_path method
+    redirect_to next_path(@engagement_form)
   end
   
-  private
-  
-  def determine_next_step
-    if @engagement_form.volunteers_nonprofit?
-      new_engagement_form_volunteer_path(@engagement_form)
-    else
-      review_summary_path(@engagement_form.id)
-    end
+  # Class method to determine if this controller should be skipped
+  def self.skip?(engagement_form)
+    !engagement_form.enrolled_work_program?
   end
 end

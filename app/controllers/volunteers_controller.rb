@@ -13,4 +13,9 @@ class VolunteersController < ApplicationController
     # Go to review page since this is the last step
     redirect_to review_summary_path(@engagement_form.id)
   end
+  
+  # Class method to determine if this controller should be skipped
+  def self.skip?(engagement_form)
+    !engagement_form.volunteers_nonprofit?
+  end
 end
