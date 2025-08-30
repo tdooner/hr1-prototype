@@ -7,8 +7,13 @@ class VolunteersController < ApplicationController
   def create
     @engagement_form = EngagementForm.find(params[:engagement_form_id])
     
-    # Go to review page since this is the last step
-    redirect_to review_summary_path(@engagement_form.id)
+    # Check if user came from review page
+    if params[:from_review] == "true"
+      redirect_to review_summary_path(@engagement_form)
+    else
+      # Go to review page since this is the last step
+      redirect_to review_summary_path(@engagement_form.id)
+    end
   end
   
   # Class method to determine if this controller should be skipped

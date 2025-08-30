@@ -16,8 +16,13 @@ class WorkProgramsController < ApplicationController
     # Validate with the work_programs_page context
     if @engagement_form.valid?(:work_programs_page)
       @engagement_form.save!
-      # Use the new next_path method
-      redirect_to next_path(@engagement_form)
+      # Check if user came from review page
+      if params[:from_review] == "true"
+        redirect_to review_summary_path(@engagement_form)
+      else
+        # Use the new next_path method
+        redirect_to next_path(@engagement_form)
+      end
     else
       # Re-render the form with validation errors
       render :new, status: :unprocessable_entity
