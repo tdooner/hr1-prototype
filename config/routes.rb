@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   # Community Engagement Form flow
-  resources :engagement_forms, only: [:new, :create, :show] do
+  resources :engagement_forms, only: [:new, :create, :show, :edit, :update] do
     member do
       get :pdf
     end
@@ -13,8 +13,10 @@ Rails.application.routes.draw do
     resources :volunteers, only: [:new, :create]
   end
   
-  # Summary page
+  # Summary pages
   get "summary/:engagement_form_id", to: "summary#show", as: :summary
+  get "summary/:engagement_form_id/review", to: "summary#review", as: :review_summary
+  post "summary/:engagement_form_id/submit", to: "summary#submit", as: :submit_summary
   
   # Root route
   root "engagement_forms#new"

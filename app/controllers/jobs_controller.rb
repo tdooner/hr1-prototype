@@ -6,7 +6,9 @@ class JobsController < ApplicationController
   def create
     @engagement_form = EngagementForm.find(params[:engagement_form_id])
     
-    @engagement_form.update(job_details: params[:job_details])
+    # Handle both nested and direct parameters
+    job_details = params[:engagement_form]&.dig(:job_details) || params[:job_details]
+    @engagement_form.update(job_details: job_details)
     
     # Determine next step based on remaining engagement types
     next_step = determine_next_step
@@ -24,7 +26,7 @@ class JobsController < ApplicationController
     elsif @engagement_form.volunteers_nonprofit?
       new_engagement_form_volunteer_path(@engagement_form)
     else
-      summary_path(@engagement_form.id)
+      review_summary_path(@engagement_form.id)
     end
   end
 end

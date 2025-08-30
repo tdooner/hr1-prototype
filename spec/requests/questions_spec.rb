@@ -8,13 +8,77 @@ RSpec.describe "Questions", type: :request do
       get "/engagement_forms/#{engagement_form.id}/questions/new"
       expect(response).to have_http_status(:success)
     end
-  end
 
-  describe "POST /create" do
-    it "returns http success" do
-      post "/engagement_forms/#{engagement_form.id}/questions", params: { has_job: "no", is_student: "no", enrolled_work_program: "no", volunteers_nonprofit: "no" }
-      expect(response).to have_http_status(:redirect)
+    it "displays the questions form with checkboxes" do
+      get "/engagement_forms/#{engagement_form.id}/questions/new"
+      expect(response.body).to include("Check any of these that apply:")
+      expect(response.body).to include("I have a job")
+      expect(response.body).to include("I am a student")
+      expect(response.body).to include("I am enrolled in a work program")
+      expect(response.body).to include("I volunteer with a nonprofit organization")
+    end
+
+    it "displays informational text outside of alert component" do
+      get "/engagement_forms/#{engagement_form.id}/questions/new"
+      expect(response.body).to include("Requirements Overview")
+      expect(response.body).to include("To meet the Community Engagement Requirements")
+      expect(response.body).not_to include("usa-alert")
     end
   end
 
+  describe "POST /create" do
+    it "handles no selections and redirects to review page" do
+      post "/engagement_forms/#{engagement_form.id}/questions", params: {}
+      expect(response).to have_http_status(:redirect)
+      expect(response).to redirect_to(review_summary_path(engagement_form.id))
+    end
+
+    it "handles job selection and redirects to job form" do
+      post "/engagement_forms/#{engagement_form.id}/questions", params: { has_job: "yes" }
+      expect(response).to have_http_status(:redirect)
+      expect(response).to redirect_to(new_engagement_form_job_path(engagement_form))
+    end
+
+    it "handles student selection and redirects to student form" do
+      post "/engagement_forms/#{engagement_form.id}/questions", params: { is_student: "yes" }
+      expect(response).to have_http_status(:redirect)
+      expect(response).to redirect_to(new_engagement_form_student_path(engagement_form))
+    end
+
+    it "handles work program selection and redirects to work program form" do
+      post "/engagement_forms/#{engagement_form.id}/questions", params: { enrolled_work_program: "yes" }
+      expect(response).to have_http_status(:redirect)
+      expect(response).to redirect_to(new_engagement_form_work_program_path(engagement_form))
+    end
+
+    it "handles volunteer selection and redirects to volunteer form" do
+      post "/engagement_forms/#{engagement_form.id}/questions", params: { volunteers_nonprofit: "yes" }
+      expect(response).to have_http_status(:redirect)
+      expect(response).to redirect_to(new_engagement_form_volunteer_path(engagement_form))
+    end
+
+    it "prioritizes job over other selections" do
+      post "/engagement_forms/#{engagement_form.id}/questions", params: { 
+        has_job: "yes", 
+        is_student: "yes", 
+        enrolled_work_program: "yes", 
+        volunteers_nonprofit: "yes" 
+      }
+      expect(response).to have_http_status(:redirect)
+      expect(response).to redirect_to(new_engagement_form_job_path(engagement_form))
+    end
+
+    it "updates engagement form with correct boolean values" do
+      post "/engagement_forms/#{engagement_form.id}/questions", params: { 
+        has_job: "yes", 
+        is_student: "yes" 
+      }
+      
+      engagement_form.reload
+      expect(engagement_form.has_job).to be true
+      expect(engagement_form.is_student).to be true
+      expect(engagement_form.enrolled_work_program).to be false
+      expect(engagement_form.volunteers_nonprofit).to be false
+    end
+  end
 end

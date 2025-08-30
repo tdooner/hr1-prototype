@@ -5,42 +5,6 @@
       Please complete this form to document your community engagement activities and meet the required standards.
     </p>
     
-    <%= form_with model: @engagement_form, local: true, class: "usa-form" do |form| %>
-      <% if @engagement_form.errors.any? %>
-        <div class="usa-alert usa-alert--error" role="alert">
-          <div class="usa-alert__body">
-            <h3 class="usa-alert__heading">Please correct the following errors:</h3>
-            <ul class="usa-alert__text">
-              <% @engagement_form.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-              <% end %>
-            </ul>
-          </div>
-        </div>
-      <% end %>
-      
-      <fieldset class="usa-fieldset">
-        <legend class="usa-legend">Basic Information</legend>
-        
-        <div class="usa-form-group">
-          <%= form.label :user_name, "Full Name", class: "usa-label" %>
-          <%= form.text_field :user_name, class: "usa-input", required: true %>
-        </div>
-        
-        <div class="usa-form-group">
-          <%= form.label :email, "Email Address", class: "usa-label" %>
-          <%= form.email_field :email, class: "usa-input", required: true %>
-        </div>
-        
-        <div class="usa-form-group">
-          <%= form.label :organization, "Organization", class: "usa-label" %>
-          <%= form.text_field :organization, class: "usa-input", required: true %>
-        </div>
-      </fieldset>
-      
-      <div class="usa-form-group">
-        <%= form.submit "Continue to Questions", class: "usa-button" %>
-      </div>
-    <% end %>
+    <%= render 'form' %>
   </div>
 </div>

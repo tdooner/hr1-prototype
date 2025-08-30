@@ -6,7 +6,9 @@ class WorkProgramsController < ApplicationController
   def create
     @engagement_form = EngagementForm.find(params[:engagement_form_id])
     
-    @engagement_form.update(work_program_details: params[:work_program_details])
+    # Handle both nested and direct parameters
+    work_program_details = params[:engagement_form]&.dig(:work_program_details) || params[:work_program_details]
+    @engagement_form.update(work_program_details: work_program_details)
     
     # Determine next step based on remaining engagement types
     next_step = determine_next_step
@@ -20,7 +22,7 @@ class WorkProgramsController < ApplicationController
     if @engagement_form.volunteers_nonprofit?
       new_engagement_form_volunteer_path(@engagement_form)
     else
-      summary_path(@engagement_form.id)
+      review_summary_path(@engagement_form.id)
     end
   end
 end

@@ -6,16 +6,20 @@ class QuestionsController < ApplicationController
   def create
     @engagement_form = EngagementForm.find(params[:engagement_form_id])
     
-    # Update the engagement form with the yes/no answers
+    # Handle both nested and direct parameters
+    engagement_params = params[:engagement_form] || params
+    
+    # Update the engagement form with the checkbox answers
+    # Checkboxes return "yes" when checked, nil when unchecked
     @engagement_form.update(
-      has_job: params[:has_job] == "yes",
-      is_student: params[:is_student] == "yes",
-      enrolled_work_program: params[:enrolled_work_program] == "yes",
-      volunteers_nonprofit: params[:volunteers_nonprofit] == "yes"
+      has_job: engagement_params[:has_job] == "yes",
+      is_student: engagement_params[:is_student] == "yes",
+      enrolled_work_program: engagement_params[:enrolled_work_program] == "yes",
+      volunteers_nonprofit: engagement_params[:volunteers_nonprofit] == "yes"
     )
     
     # Determine the next step based on the answers
-    next_step = determine_next_step(params)
+    next_step = determine_next_step(engagement_params)
     
     redirect_to next_step
   end
@@ -33,8 +37,8 @@ class QuestionsController < ApplicationController
     elsif params[:volunteers_nonprofit] == "yes"
       new_engagement_form_volunteer_path(@engagement_form)
     else
-      # If none are selected, go to summary
-      summary_path(@engagement_form.id)
+      # If none are selected, go to review page
+      review_summary_path(@engagement_form.id)
     end
   end
 end

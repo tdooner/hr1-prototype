@@ -6,7 +6,7 @@
       Please provide details about your volunteer work to help verify that you meet the Community Engagement Requirements.
     </p>
     
-    <%= form_with url: engagement_form_volunteers_path(@engagement_form), method: :post, local: true, class: "usa-form" do |form| %>
+    <%= form_with model: @engagement_form, url: engagement_form_volunteers_path(@engagement_form), method: :post, local: true, class: "usa-form" do |form| %>
       
       <fieldset class="usa-fieldset">
         <legend class="usa-legend">Volunteer Details</legend>

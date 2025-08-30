@@ -2,12 +2,14 @@
   <div class="grid-col-12">
     <h1 class="usa-prose">Community Engagement Form Summary</h1>
     
-    <div class="usa-alert usa-alert--success" role="alert">
-      <div class="usa-alert__body">
-        <h3 class="usa-alert__heading">Form Completed Successfully!</h3>
-        <p class="usa-alert__text">Your community engagement form has been submitted. Below is a summary of your responses.</p>
+    <% if @engagement_form.completed? %>
+      <div class="usa-alert usa-alert--success" role="alert">
+        <div class="usa-alert__body">
+          <h3 class="usa-alert__heading">Form Submitted Successfully!</h3>
+          <p class="usa-alert__text">Your community engagement form has been submitted and is now complete. Below is a summary of your responses.</p>
+        </div>
       </div>
-    </div>
+    <% end %>
     
     <div class="usa-summary-box">
       <div class="usa-summary-box__body">
@@ -76,7 +78,9 @@
     <% end %>
     
     <div class="usa-form-group">
-      <%= link_to "Download PDF", engagement_form_path(@engagement_form, format: :pdf), class: "usa-button" %>
+      <% if @engagement_form.completed? %>
+        <%= link_to "Download PDF", engagement_form_path(@engagement_form, format: :pdf), class: "usa-button" %>
+      <% end %>
       <%= link_to "Submit Another Form", new_engagement_form_path, class: "usa-button usa-button--outline" %>
     </div>
   </div>

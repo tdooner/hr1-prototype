@@ -1,0 +1,118 @@
+<div class="grid-row">
+  <div class="grid-col-12">
+    <h1 class="usa-prose">Review Your Community Engagement Form</h1>
+    
+    <div class="usa-alert usa-alert--info" role="alert">
+      <div class="usa-alert__body">
+        <h3 class="usa-alert__heading">Please Review Your Information</h3>
+        <p class="usa-alert__text">
+          Please review all your responses below. You can edit any section by clicking the "Edit" link next to it. 
+          Once you're satisfied with your answers, click "Submit Form" to complete the process.
+        </p>
+      </div>
+    </div>
+    
+    <div class="usa-summary-box">
+      <div class="usa-summary-box__body">
+        <h3 class="usa-summary-box__heading">
+          Basic Information
+          <%= link_to "Edit", edit_engagement_form_path(@engagement_form), class: "usa-button usa-button--small usa-button--outline", style: "float: right;" %>
+        </h3>
+        <div class="usa-summary-box__text">
+          <p><strong>Name:</strong> <%= @engagement_form.user_name %></p>
+          <p><strong>Email:</strong> <%= @engagement_form.email %></p>
+          <p><strong>Organization:</strong> <%= @engagement_form.organization %></p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="usa-summary-box">
+      <div class="usa-summary-box__body">
+        <h3 class="usa-summary-box__heading">
+          Engagement Activities
+          <%= link_to "Edit", new_engagement_form_question_path(@engagement_form), class: "usa-button usa-button--small usa-button--outline", style: "float: right;" %>
+        </h3>
+        <div class="usa-summary-box__text">
+          <ul class="usa-list">
+            <li><%= @engagement_form.has_job? ? "✅ I have a job" : "❌ I don't have a job" %></li>
+            <li><%= @engagement_form.is_student? ? "✅ I am a student" : "❌ I am not a student" %></li>
+            <li><%= @engagement_form.enrolled_work_program? ? "✅ I am enrolled in a work program" : "❌ I am not enrolled in a work program" %></li>
+            <li><%= @engagement_form.volunteers_nonprofit? ? "✅ I volunteer with a nonprofit organization" : "❌ I don't volunteer with a nonprofit organization" %></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <% if @engagement_form.has_job? %>
+      <div class="usa-summary-box">
+        <div class="usa-summary-box__body">
+          <h3 class="usa-summary-box__heading">
+            Employment Details
+            <%= link_to "Edit", new_engagement_form_job_path(@engagement_form), class: "usa-button usa-button--small usa-button--outline", style: "float: right;" %>
+          </h3>
+          <div class="usa-summary-box__text">
+            <p><%= @engagement_form.job_details %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    
+    <% if @engagement_form.is_student? %>
+      <div class="usa-summary-box">
+        <div class="usa-summary-box__body">
+          <h3 class="usa-summary-box__heading">
+            Student Details
+            <%= link_to "Edit", new_engagement_form_student_path(@engagement_form), class: "usa-button usa-button--small usa-button--outline", style: "float: right;" %>
+          </h3>
+          <div class="usa-summary-box__text">
+            <p><%= @engagement_form.student_details %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    
+    <% if @engagement_form.enrolled_work_program? %>
+      <div class="usa-summary-box">
+        <div class="usa-summary-box__body">
+          <h3 class="usa-summary-box__heading">
+            Work Program Details
+            <%= link_to "Edit", new_engagement_form_work_program_path(@engagement_form), class: "usa-button usa-button--small usa-button--outline", style: "float: right;" %>
+          </h3>
+          <div class="usa-summary-box__text">
+            <p><%= @engagement_form.work_program_details %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    
+    <% if @engagement_form.volunteers_nonprofit? %>
+      <div class="usa-summary-box">
+        <div class="usa-summary-box__body">
+          <h3 class="usa-summary-box__heading">
+            Volunteer Details
+            <%= link_to "Edit", new_engagement_form_volunteer_path(@engagement_form), class: "usa-button usa-button--small usa-button--outline", style: "float: right;" %>
+          </h3>
+          <div class="usa-summary-box__text">
+            <p><%= @engagement_form.volunteer_details %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    
+    <% if !@engagement_form.has_job? && !@engagement_form.is_student? && !@engagement_form.enrolled_work_program? && !@engagement_form.volunteers_nonprofit? %>
+      <div class="usa-alert usa-alert--warning" role="alert">
+        <div class="usa-alert__body">
+          <h3 class="usa-alert__heading">No Engagement Activities Selected</h3>
+          <p class="usa-alert__text">You indicated that you do not participate in any of the qualifying engagement activities. Please review the Community Engagement Requirements to ensure you meet the necessary criteria.</p>
+        </div>
+      </div>
+    <% end %>
+    
+    <div class="usa-form-group">
+      <%= form_with url: submit_summary_path(@engagement_form), method: :post, local: true do |form| %>
+        <%= form.submit "Submit Form", class: "usa-button" %>
+      <% end %>
+      <%= link_to "Back to Questions", new_engagement_form_question_path(@engagement_form), class: "usa-button usa-button--outline" %>
+    </div>
+  </div>
+</div>

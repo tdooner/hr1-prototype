@@ -2,71 +2,37 @@
   <div class="grid-col-12">
     <h1 class="usa-prose">Community Engagement Requirements</h1>
     
-    <div class="usa-alert usa-alert--info" role="alert">
-      <div class="usa-alert__body">
-        <h3 class="usa-alert__heading">Requirements Overview</h3>
-        <p class="usa-alert__text">
-          To meet the Community Engagement Requirements, you must demonstrate either a certain amount of income or hours spent on qualifying activities. 
-          Please answer the following questions to help determine which requirements apply to your situation.
-        </p>
-      </div>
+    <div class="usa-prose">
+      <h3>Requirements Overview</h3>
+      <p>
+        To meet the Community Engagement Requirements, you must demonstrate either a certain amount of income or hours spent on qualifying activities. 
+        Please answer the following questions to help determine which requirements apply to your situation.
+      </p>
     </div>
     
-    <%= form_with url: engagement_form_questions_path(@engagement_form), method: :post, local: true, class: "usa-form" do |form| %>
+    <%= form_with model: @engagement_form, url: engagement_form_questions_path(@engagement_form), method: :post, local: true, class: "usa-form" do |form| %>
       
       <fieldset class="usa-fieldset">
-        <legend class="usa-legend">Do you have a job?</legend>
+        <legend class="usa-legend">Check any of these that apply:</legend>
         
-        <div class="usa-radio">
-          <%= form.radio_button :has_job, "yes", class: "usa-radio__input" %>
-          <%= form.label :has_job_yes, "Yes, I have a job", class: "usa-radio__label" %>
+        <div class="usa-checkbox">
+          <%= form.check_box :has_job, { class: "usa-checkbox__input" }, "yes", "no" %>
+          <%= form.label :has_job, "I have a job", class: "usa-checkbox__label" %>
         </div>
         
-        <div class="usa-radio">
-          <%= form.radio_button :has_job, "no", class: "usa-radio__input" %>
-          <%= form.label :has_job_no, "No, I don't have a job", class: "usa-radio__label" %>
-        </div>
-      </fieldset>
-      
-      <fieldset class="usa-fieldset">
-        <legend class="usa-legend">Are you a student?</legend>
-        
-        <div class="usa-radio">
-          <%= form.radio_button :is_student, "yes", class: "usa-radio__input" %>
-          <%= form.label :is_student_yes, "Yes, I am a student", class: "usa-radio__label" %>
+        <div class="usa-checkbox">
+          <%= form.check_box :is_student, { class: "usa-checkbox__input" }, "yes", "no" %>
+          <%= form.label :is_student, "I am a student", class: "usa-checkbox__label" %>
         </div>
         
-        <div class="usa-radio">
-          <%= form.radio_button :is_student, "no", class: "usa-radio__input" %>
-          <%= form.label :is_student_no, "No, I am not a student", class: "usa-radio__label" %>
-        </div>
-      </fieldset>
-      
-      <fieldset class="usa-fieldset">
-        <legend class="usa-legend">Are you enrolled in a work program?</legend>
-        
-        <div class="usa-radio">
-          <%= form.radio_button :enrolled_work_program, "yes", class: "usa-radio__input" %>
-          <%= form.label :enrolled_work_program_yes, "Yes, I am enrolled in a work program", class: "usa-radio__label" %>
+        <div class="usa-checkbox">
+          <%= form.check_box :enrolled_work_program, { class: "usa-checkbox__input" }, "yes", "no" %>
+          <%= form.label :enrolled_work_program, "I am enrolled in a work program", class: "usa-checkbox__label" %>
         </div>
         
-        <div class="usa-radio">
-          <%= form.radio_button :enrolled_work_program, "no", class: "usa-radio__input" %>
-          <%= form.label :enrolled_work_program_no, "No, I am not enrolled in a work program", class: "usa-radio__label" %>
-        </div>
-      </fieldset>
-      
-      <fieldset class="usa-fieldset">
-        <legend class="usa-legend">Do you volunteer with a nonprofit organization?</legend>
-        
-        <div class="usa-radio">
-          <%= form.radio_button :volunteers_nonprofit, "yes", class: "usa-radio__input" %>
-          <%= form.label :volunteers_nonprofit_yes, "Yes, I volunteer with a nonprofit", class: "usa-radio__label" %>
-        </div>
-        
-        <div class="usa-radio">
-          <%= form.radio_button :volunteers_nonprofit, "no", class: "usa-radio__input" %>
-          <%= form.label :volunteers_nonprofit_no, "No, I don't volunteer with a nonprofit", class: "usa-radio__label" %>
+        <div class="usa-checkbox">
+          <%= form.check_box :volunteers_nonprofit, { class: "usa-checkbox__input" }, "yes", "no" %>
+          <%= form.label :volunteers_nonprofit, "I volunteer with a nonprofit organization", class: "usa-checkbox__label" %>
         </div>
       </fieldset>
       

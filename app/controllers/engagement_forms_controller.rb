@@ -27,6 +27,20 @@ class EngagementFormsController < ApplicationController
     end
   end
 
+  def edit
+    @engagement_form = EngagementForm.find(params[:id])
+  end
+
+  def update
+    @engagement_form = EngagementForm.find(params[:id])
+    
+    if @engagement_form.update(engagement_form_params)
+      redirect_to review_summary_path(@engagement_form), notice: 'Basic information updated successfully!'
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def engagement_form_params
