@@ -6,32 +6,43 @@
       Please provide details about your education status in <%= @engagement_form.prior_month_name %> to help verify that you meet the Community Engagement Requirements.
     </p>
     
+    <% if @engagement_form.errors.any? %>
+      <div class="usa-alert usa-alert--error" role="alert">
+        <div class="usa-alert__body">
+          <h4 class="usa-alert__heading">Please correct the following errors:</h4>
+          <ul class="usa-alert__text">
+            <% @engagement_form.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+    
     <%= form_with model: @engagement_form, url: engagement_form_students_path(@engagement_form), method: :post, local: true, class: "usa-form" do |form| %>
       
       <fieldset class="usa-fieldset">
-        <legend class="usa-legend">Student Details</legend>
+        <legend class="usa-legend--large">Student Details</legend>
         
         <div class="usa-form-group">
-          <%= form.label :school_name, "School Name:", class: "usa-label" %>
+          <%= form.label :school_name, "School Name", class: "usa-label" %>
           <%= form.text_field :school_name, class: "usa-input" %>
         </div>
         
         <div class="usa-form-group">
-          <fieldset class="usa-fieldset">
-            <legend class="usa-legend">Enrollment Status</legend>
-            <div class="usa-radio">
-              <%= form.radio_button :enrollment_status, "half_time_or_more", class: "usa-radio__input", id: "enrollment_half_time_or_more" %>
-              <%= form.label :enrollment_status_half_time_or_more, "Enrolled at least half-time", class: "usa-radio__label", for: "enrollment_half_time_or_more" %>
-            </div>
-            <div class="usa-radio">
-              <%= form.radio_button :enrollment_status, "less_than_half_time", class: "usa-radio__input", id: "enrollment_less_than_half_time" %>
-              <%= form.label :enrollment_status_less_than_half_time, "Enrolled less than half-time", class: "usa-radio__label", for: "enrollment_less_than_half_time" %>
-            </div>
-          </fieldset>
+          <label class="usa-label">Enrollment Status</label>
+          <div class="usa-radio">
+            <%= form.radio_button :enrollment_status, "half_time_or_more", class: "usa-radio__input", id: "enrollment_half_time_or_more" %>
+            <%= form.label :enrollment_status_half_time_or_more, "Enrolled at least half-time", class: "usa-radio__label", for: "enrollment_half_time_or_more" %>
+          </div>
+          <div class="usa-radio">
+            <%= form.radio_button :enrollment_status, "less_than_half_time", class: "usa-radio__input", id: "enrollment_less_than_half_time" %>
+            <%= form.label :enrollment_status_less_than_half_time, "Enrolled less than half-time", class: "usa-radio__label", for: "enrollment_less_than_half_time" %>
+          </div>
         </div>
         
         <div class="usa-form-group" id="school-hours-section" style="display: none;">
-          <%= form.label :school_hours, "Number of hours you attend school per week:", class: "usa-label" %>
+          <%= form.label :school_hours, "Number of hours you attend school per week", class: "usa-label" %>
           <%= form.number_field :school_hours, class: "usa-input", step: "0.5", min: "0" %>
         </div>
       </fieldset>

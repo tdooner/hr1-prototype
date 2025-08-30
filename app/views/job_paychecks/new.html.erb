@@ -6,22 +6,23 @@
       Please provide details about your paycheck from <%= @engagement_form.prior_month_name %>.
     </p>
     
-    <%= form_with model: [@engagement_form, @job_paycheck], local: true, class: "usa-form" do |form| %>
-      <% if @job_paycheck.errors.any? %>
-        <div class="usa-alert usa-alert--error" role="alert">
-          <div class="usa-alert__body">
-            <h4 class="usa-alert__heading">Please correct the following errors:</h4>
-            <ul class="usa-alert__text">
-              <% @job_paycheck.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-              <% end %>
-            </ul>
-          </div>
+    <% if @job_paycheck.errors.any? %>
+      <div class="usa-alert usa-alert--error" role="alert">
+        <div class="usa-alert__body">
+          <h4 class="usa-alert__heading">Please correct the following errors:</h4>
+          <ul class="usa-alert__text">
+            <% @job_paycheck.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
         </div>
-      <% end %>
+      </div>
+    <% end %>
+    
+    <%= form_with model: [@engagement_form, @job_paycheck], local: true, class: "usa-form" do |form| %>
       
       <fieldset class="usa-fieldset">
-        <legend class="usa-legend">Paycheck Details</legend>
+        <legend class="usa-legend--large">Paycheck Details</legend>
         
         <div class="usa-form-group">
           <%= form.label :pay_date, "Pay Date", class: "usa-label" %>

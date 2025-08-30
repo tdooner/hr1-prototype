@@ -9,10 +9,10 @@
     <%= form_with model: @engagement_form, url: engagement_form_work_programs_path(@engagement_form), method: :post, local: true, class: "usa-form" do |form| %>
       
       <fieldset class="usa-fieldset">
-        <legend class="usa-legend">Work Program Details</legend>
+        <legend class="usa-legend--large">Work Program Details</legend>
         
         <div class="usa-form-group">
-          <%= form.label :work_program_name, "Work Program Name:", class: "usa-label" %>
+          <%= form.label :work_program_name, "Work Program Name", class: "usa-label" %>
           <div class="usa-hint" id="work-program-name-hint">
             Enter the name of the work program you are enrolled in.
           </div>
@@ -20,7 +20,7 @@
         </div>
         
         <div class="usa-form-group">
-          <%= form.label :hours_attended, "Hours Attended:", class: "usa-label" %>
+          <%= form.label :hours_attended, "Hours Attended", class: "usa-label" %>
           <div class="usa-hint" id="hours-attended-hint">
             Enter the total number of hours you have attended in this work program.
           </div>

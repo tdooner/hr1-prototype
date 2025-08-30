@@ -13,7 +13,7 @@
     <%= form_with model: @engagement_form, url: engagement_form_questions_path(@engagement_form), method: :post, local: true, class: "usa-form" do |form| %>
       
       <fieldset class="usa-fieldset">
-        <legend class="usa-legend">Check any of these that apply:</legend>
+        <legend class="usa-legend--large">Check any of these that apply:</legend>
         
         <div class="usa-checkbox">
           <%= form.check_box :has_job, { class: "usa-checkbox__input" }, "yes", "no" %>

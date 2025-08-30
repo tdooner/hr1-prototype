@@ -6,22 +6,23 @@
       Please provide details about your volunteer shift from <%= @engagement_form.prior_month_name %>.
     </p>
     
-    <%= form_with model: [@engagement_form, @volunteer_shift], local: true, class: "usa-form" do |form| %>
-      <% if @volunteer_shift.errors.any? %>
-        <div class="usa-alert usa-alert--error" role="alert">
-          <div class="usa-alert__body">
-            <h4 class="usa-alert__heading">Please correct the following errors:</h4>
-            <ul class="usa-alert__text">
-              <% @volunteer_shift.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-              <% end %>
-            </ul>
-          </div>
+    <% if @volunteer_shift.errors.any? %>
+      <div class="usa-alert usa-alert--error" role="alert">
+        <div class="usa-alert__body">
+          <h4 class="usa-alert__heading">Please correct the following errors:</h4>
+          <ul class="usa-alert__text">
+            <% @volunteer_shift.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
         </div>
-      <% end %>
+      </div>
+    <% end %>
+    
+    <%= form_with model: [@engagement_form, @volunteer_shift], local: true, class: "usa-form" do |form| %>
       
       <fieldset class="usa-fieldset">
-        <legend class="usa-legend">Volunteer Shift Details</legend>
+        <legend class="usa-legend--large">Volunteer Shift Details</legend>
         
         <div class="usa-form-group">
           <%= form.label :organization_name, "Organization Name", class: "usa-label" %>

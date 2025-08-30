@@ -11,14 +11,22 @@ class StudentsController < ApplicationController
     enrollment_status = params[:engagement_form]&.dig(:enrollment_status) || params[:enrollment_status]
     school_hours = params[:engagement_form]&.dig(:school_hours) || params[:school_hours]
     
-    @engagement_form.update(
+    # Update the attributes
+    @engagement_form.assign_attributes(
       school_name: school_name,
       enrollment_status: enrollment_status,
       school_hours: school_hours
     )
     
-    # Use the new next_path method
-    redirect_to next_path(@engagement_form)
+    # Validate with the students_page context
+    if @engagement_form.valid?(:students_page)
+      @engagement_form.save!
+      # Use the new next_path method
+      redirect_to next_path(@engagement_form)
+    else
+      # Re-render the form with validation errors
+      render :new, status: :unprocessable_entity
+    end
   end
   
   # Class method to determine if this controller should be skipped
