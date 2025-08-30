@@ -44,6 +44,6 @@ class EngagementFormsController < ApplicationController
   private
 
   def engagement_form_params
-    params.require(:engagement_form).permit(:user_name, :email, :organization)
+    params.require(:engagement_form).permit(:user_name, :email)
   end
 end

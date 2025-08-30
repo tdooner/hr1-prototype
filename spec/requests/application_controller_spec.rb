@@ -10,7 +10,7 @@ RSpec.describe ApplicationController, type: :request do
     end.new
   end
 
-  let(:engagement_form) { EngagementForm.create!(user_name: "Test User", email: "test@example.com", organization: "Test Org") }
+      let(:engagement_form) { EngagementForm.create!(user_name: "Test User", email: "test@example.com") }
 
   describe '#next_path' do
     context 'when starting from QuestionsController' do

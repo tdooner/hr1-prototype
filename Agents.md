@@ -22,7 +22,7 @@
 ## Application Architecture
 
 ### Multi-Page Form Flow
-1. **Initial Form** (`/engagement_forms/new`) - Basic user info (name, email, organization)
+1. **Initial Form** (`/engagement_forms/new`) - Basic user info (name, email)
 2. **Questions Page** (`/questions/new`) - Single page with all "yes/no" engagement type questions
 3. **Detail Pages** - Conditional routing based on user selections:
    - Jobs (`/jobs/new`) - Employment details
@@ -60,8 +60,7 @@
 ```ruby
 # Core fields
 user_name: string
-email: string  
-organization: string
+email: string
 
 # Engagement type flags
 has_job: boolean

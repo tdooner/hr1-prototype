@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Students", type: :request do
-  let(:engagement_form) { EngagementForm.create!(user_name: "Test User", email: "test@example.com", organization: "Test Org") }
+  let(:engagement_form) { EngagementForm.create!(user_name: "Test User", email: "test@example.com") }
 
   describe "GET /new" do
     it "returns http success" do
