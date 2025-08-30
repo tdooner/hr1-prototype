@@ -12,7 +12,7 @@ RSpec.describe "Jobs", type: :request do
 
   describe "POST /create" do
     it "returns http success" do
-      post "/engagement_forms/#{engagement_form.id}/jobs", params: { job_details: "Test job details" }
+      post "/engagement_forms/#{engagement_form.id}/jobs", params: {}
       expect(response).to have_http_status(:redirect)
     end
   end

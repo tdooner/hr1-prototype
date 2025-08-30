@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :work_programs, only: [:new, :create]
     resources :volunteers, only: [:new, :create]
     resources :volunteer_shifts, only: [:new, :create]
+    resources :job_paychecks, only: [:new, :create]
   end
   
   # Summary pages

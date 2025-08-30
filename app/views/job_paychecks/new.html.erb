@@ -1,0 +1,57 @@
+<div class="grid-row">
+  <div class="grid-col-12">
+    <h1 class="usa-prose">Add Paycheck</h1>
+    
+    <p class="usa-intro">
+      Please provide details about your paycheck.
+    </p>
+    
+    <%= form_with model: [@engagement_form, @job_paycheck], local: true, class: "usa-form" do |form| %>
+      <% if @job_paycheck.errors.any? %>
+        <div class="usa-alert usa-alert--error" role="alert">
+          <div class="usa-alert__body">
+            <h4 class="usa-alert__heading">Please correct the following errors:</h4>
+            <ul class="usa-alert__text">
+              <% @job_paycheck.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+      
+      <fieldset class="usa-fieldset">
+        <legend class="usa-legend">Paycheck Details</legend>
+        
+        <div class="usa-form-group">
+          <%= form.label :pay_date, "Pay Date", class: "usa-label" %>
+          <div class="usa-hint" id="pay-date-hint">
+            Select the date when you received this paycheck.
+          </div>
+          <%= form.date_field :pay_date, class: "usa-input", "aria-describedby": "pay-date-hint" %>
+        </div>
+        
+        <div class="usa-form-group">
+          <%= form.label :gross_pay_amount, "Gross Pay Amount ($)", class: "usa-label" %>
+          <div class="usa-hint" id="gross-pay-amount-hint">
+            Enter the gross pay amount before taxes and deductions.
+          </div>
+          <%= form.number_field :gross_pay_amount, class: "usa-input", step: "0.01", min: "0", "aria-describedby": "gross-pay-amount-hint" %>
+        </div>
+        
+        <div class="usa-form-group">
+          <%= form.label :hours_worked, "Hours Worked", class: "usa-label" %>
+          <div class="usa-hint" id="hours-worked-hint">
+            Enter the number of hours you worked for this paycheck (e.g., 40.0 for 40 hours).
+          </div>
+          <%= form.number_field :hours_worked, class: "usa-input", step: "0.1", min: "0", "aria-describedby": "hours-worked-hint" %>
+        </div>
+      </fieldset>
+      
+      <div class="usa-form-group">
+        <%= form.submit "Save", class: "usa-button" %>
+        <%= link_to "Cancel", new_engagement_form_job_path(@engagement_form), class: "usa-button usa-button--outline" %>
+      </div>
+    <% end %>
+  </div>
+</div>

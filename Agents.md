@@ -25,7 +25,7 @@
 1. **Initial Form** (`/engagement_forms/new`) - Basic user info (name, email)
 2. **Questions Page** (`/questions/new`) - Single page with all "yes/no" engagement type questions
 3. **Detail Pages** - Conditional routing based on user selections:
-   - Jobs (`/jobs/new`) - Employment details
+   - Jobs (`/jobs/new`) - Employment details with paycheck management
    - Students (`/students/new`) - Student details  
    - Work Programs (`/work_programs/new`) - Work program details
    - Volunteers (`/volunteers/new`) - Volunteer shifts list and management
@@ -36,6 +36,12 @@
 2. **Add Volunteer Shift** (`/volunteer_shifts/new`) - Form to add new shift with organization, date, and hours
 3. **Return to Volunteers** - After saving, user returns to see updated list
 4. **Continue to Summary** - Proceeds to final review with all shifts displayed
+
+### Paycheck Management Flow
+1. **Jobs Page** (`/jobs/new`) - Lists all paychecks with total hours and gross pay
+2. **Add Paycheck** (`/job_paychecks/new`) - Form to add new paycheck with pay date, gross pay, and hours
+3. **Return to Jobs** - After saving, user returns to see updated list
+4. **Continue to Summary** - Proceeds to final review with all paychecks displayed
 
 ### Key Design Decisions
 
@@ -69,12 +75,12 @@ enrolled_work_program: boolean
 volunteers_nonprofit: boolean
 
 # Detail fields
-job_details: text
 student_details: text
 work_program_details: text
 
 # Associations
 has_many :volunteer_shifts, dependent: :destroy
+has_many :job_paychecks, dependent: :destroy
 ```
 
 ### VolunteerShift Model
@@ -97,6 +103,26 @@ validates :hours, presence: true, numericality: { greater_than: 0 }
 scope :ordered_by_date, -> { order(shift_date: :desc) }
 ```
 
+### JobPaycheck Model
+```ruby
+# Fields
+engagement_form_id: references
+pay_date: date
+gross_pay_amount: decimal
+hours_worked: decimal
+
+# Associations
+belongs_to :engagement_form
+
+# Validations
+validates :pay_date, presence: true
+validates :gross_pay_amount, presence: true, numericality: { greater_than: 0 }
+validates :hours_worked, presence: true, numericality: { greater_than: 0 }
+
+# Scopes
+scope :ordered_by_date, -> { order(pay_date: :desc) }
+```
+
 ## Key Controllers
 
 ### EngagementFormsController
@@ -117,6 +143,11 @@ scope :ordered_by_date, -> { order(shift_date: :desc) }
 ### VolunteerShiftsController
 - `new` - Form to add a new volunteer shift
 - `create` - Saves volunteer shift and redirects back to volunteers page
+- Handles validation errors and success messages
+
+### JobPaychecksController
+- `new` - Form to add a new paycheck
+- `create` - Saves paycheck and redirects back to jobs page
 - Handles validation errors and success messages
 
 ### SummaryController
@@ -209,6 +240,7 @@ resources :students, only: [:new, :create]
 resources :work_programs, only: [:new, :create]
 resources :volunteers, only: [:new, :create]
 resources :volunteer_shifts, only: [:new, :create]
+resources :job_paychecks, only: [:new, :create]
 
 # Summary
 get "summary/:engagement_form_id", to: "summary#show", as: :summary
@@ -317,6 +349,7 @@ gem "wkhtmltopdf-binary"
 5. **Admin Interface:** Dashboard for viewing all submissions
 6. **Volunteer Shift Management:** Edit/delete functionality for volunteer shifts
 7. **Bulk Import:** CSV import for volunteer shifts
+8. **Paycheck Management:** Edit/delete functionality for paychecks
 
 ### Technical Debt
 1. **Error Handling:** More robust error pages and validation messages

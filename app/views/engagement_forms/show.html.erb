@@ -36,12 +36,37 @@
       </div>
     </div>
     
-    <% if @engagement_form.job_details.present? %>
+    <% if @engagement_form.has_job? %>
       <div class="usa-summary-box">
         <div class="usa-summary-box__body">
           <h3 class="usa-summary-box__heading">Employment Details</h3>
           <div class="usa-summary-box__text">
-            <p><%= @engagement_form.job_details %></p>
+            <% if @engagement_form.job_paychecks.any? %>
+              <div class="usa-table-container--scrollable" tabindex="0">
+                <table class="usa-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Pay Date</th>
+                      <th scope="col">Gross Pay</th>
+                      <th scope="col">Hours</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% @engagement_form.job_paychecks.ordered_by_date.each do |paycheck| %>
+                      <tr>
+                        <td><%= paycheck.pay_date.strftime("%B %d, %Y") %></td>
+                        <td>$<%= number_with_precision(paycheck.gross_pay_amount, precision: 2) %></td>
+                        <td><%= paycheck.hours_worked %></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+              <p><strong>Total Hours:</strong> <%= @engagement_form.job_paychecks.sum(&:hours_worked) %></p>
+              <p><strong>Total Gross Pay:</strong> $<%= number_with_precision(@engagement_form.job_paychecks.sum(&:gross_pay_amount), precision: 2) %></p>
+            <% else %>
+              <p>No paychecks have been added yet.</p>
+            <% end %>
           </div>
         </div>
       </div>

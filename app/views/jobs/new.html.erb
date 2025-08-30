@@ -3,27 +3,65 @@
     <h1 class="usa-prose">Employment Details</h1>
     
     <p class="usa-intro">
-      Please provide details about your employment to help verify that you meet the Community Engagement Requirements.
+      Please add your paychecks to help verify that you meet the Community Engagement Requirements.
     </p>
-    
-    <%= form_with model: @engagement_form, url: engagement_form_jobs_path(@engagement_form), method: :post, local: true, class: "usa-form" do |form| %>
-      
-      <fieldset class="usa-fieldset">
-        <legend class="usa-legend">Employment Details</legend>
-        
-        <div class="usa-form-group">
-          <%= form.label :job_details, "Please provide details about your employment:", class: "usa-label" %>
-          <div class="usa-hint" id="job-details-hint">
-            Include your job title, employer name, hours worked per week, and income information.
-          </div>
-          <%= form.text_area :job_details, class: "usa-textarea", rows: 4, "aria-describedby": "job-details-hint" %>
+
+    <% if notice %>
+      <div class="usa-alert usa-alert--success" role="alert">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text"><%= notice %></p>
         </div>
-      </fieldset>
-      
-      <div class="usa-form-group">
-        <%= form.submit "Continue", class: "usa-button" %>
-        <%= link_to "Back", new_engagement_form_question_path(@engagement_form), class: "usa-button usa-button--outline" %>
       </div>
     <% end %>
+
+    <% if @engagement_form.job_paychecks.any? %>
+      <div class="usa-table-container--scrollable" tabindex="0">
+        <table class="usa-table">
+          <caption>Your Paychecks</caption>
+          <thead>
+            <tr>
+              <th scope="col">Pay Date</th>
+              <th scope="col">Gross Pay</th>
+              <th scope="col">Hours</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @engagement_form.job_paychecks.ordered_by_date.each do |paycheck| %>
+              <tr>
+                <td><%= paycheck.pay_date.strftime("%B %d, %Y") %></td>
+                <td>$<%= number_with_precision(paycheck.gross_pay_amount, precision: 2) %></td>
+                <td><%= paycheck.hours_worked %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="usa-summary-box">
+        <div class="usa-summary-box__body">
+          <h3 class="usa-summary-box__heading">
+            Total Employment Summary
+          </h3>
+          <div class="usa-summary-box__text">
+            <p class="font-sans-3xl"><%= @engagement_form.job_paychecks.sum(&:hours_worked) %> hours</p>
+            <p class="font-sans-3xl">$<%= number_with_precision(@engagement_form.job_paychecks.sum(&:gross_pay_amount), precision: 2) %> total gross pay</p>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <div class="usa-alert usa-alert--info" role="alert">
+        <div class="usa-alert__body">
+          <p class="usa-alert__text">No paychecks have been added yet. Click "Add Paycheck" to get started.</p>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="usa-form-group">
+      <%= link_to "Add Paycheck", new_engagement_form_job_paycheck_path(@engagement_form), class: "usa-button" %>
+      <%= form_with url: engagement_form_jobs_path(@engagement_form), method: :post, local: true, style: "display: inline;" do |form| %>
+        <%= form.submit "Continue", class: "usa-button usa-button--outline" %>
+      <% end %>
+      <%= link_to "Back", new_engagement_form_question_path(@engagement_form), class: "usa-button usa-button--outline" %>
+    </div>
   </div>
 </div>
