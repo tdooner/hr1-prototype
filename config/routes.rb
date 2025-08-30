@@ -1,21 +1,17 @@
 Rails.application.routes.draw do
-  get "questions/new"
-  get "questions/create"
   # Community Engagement Form flow
   resources :engagement_forms, only: [:new, :create, :show] do
     member do
       get :pdf
     end
+    
+    # Nested resources that require engagement_form_id
+    resources :questions, only: [:new, :create]
+    resources :jobs, only: [:new, :create]
+    resources :students, only: [:new, :create]
+    resources :work_programs, only: [:new, :create]
+    resources :volunteers, only: [:new, :create]
   end
-  
-  # Initial questions page
-  resources :questions, only: [:new, :create]
-  
-  # Individual engagement type flows
-  resources :jobs, only: [:new, :create]
-  resources :students, only: [:new, :create]
-  resources :work_programs, only: [:new, :create]
-  resources :volunteers, only: [:new, :create]
   
   # Summary page
   get "summary/:engagement_form_id", to: "summary#show", as: :summary

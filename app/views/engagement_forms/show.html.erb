@@ -81,7 +81,7 @@
     <% end %>
     
     <div class="usa-form-group">
-      <%= link_to "Download PDF", engagement_form_pdf_path(@engagement_form, format: :pdf), class: "usa-button" %>
+      <%= link_to "Download PDF", pdf_engagement_form_path(@engagement_form, format: :pdf), class: "usa-button" %>
       <%= link_to "Submit Another Form", new_engagement_form_path, class: "usa-button usa-button--outline" %>
     </div>
   </div>

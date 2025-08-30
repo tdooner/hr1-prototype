@@ -7,7 +7,7 @@ class EngagementFormsController < ApplicationController
     @engagement_form = EngagementForm.new(engagement_form_params)
     
     if @engagement_form.save
-      redirect_to new_question_path(engagement_form_id: @engagement_form.id)
+      redirect_to new_engagement_form_question_path(@engagement_form)
     else
       render :new, status: :unprocessable_entity
     end
@@ -17,6 +17,7 @@ class EngagementFormsController < ApplicationController
     @engagement_form = EngagementForm.find(params[:id])
 
     respond_to do |format|
+      format.html
       format.pdf do
         render pdf: "community_engagement_#{@engagement_form.id}",
                template: "engagement_forms/show",

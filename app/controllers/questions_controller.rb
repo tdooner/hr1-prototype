@@ -25,13 +25,13 @@ class QuestionsController < ApplicationController
   def determine_next_step(params)
     # Check each engagement type in order and route to the first one that's "yes"
     if params[:has_job] == "yes"
-      new_job_path(engagement_form_id: @engagement_form.id)
+      new_engagement_form_job_path(@engagement_form)
     elsif params[:is_student] == "yes"
-      new_student_path(engagement_form_id: @engagement_form.id)
+      new_engagement_form_student_path(@engagement_form)
     elsif params[:enrolled_work_program] == "yes"
-      new_work_program_path(engagement_form_id: @engagement_form.id)
+      new_engagement_form_work_program_path(@engagement_form)
     elsif params[:volunteers_nonprofit] == "yes"
-      new_volunteer_path(engagement_form_id: @engagement_form.id)
+      new_engagement_form_volunteer_path(@engagement_form)
     else
       # If none are selected, go to summary
       summary_path(@engagement_form.id)

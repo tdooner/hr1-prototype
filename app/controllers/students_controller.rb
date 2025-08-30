@@ -18,9 +18,9 @@ class StudentsController < ApplicationController
   
   def determine_next_step
     if @engagement_form.enrolled_work_program?
-      new_work_program_path(engagement_form_id: @engagement_form.id)
+      new_engagement_form_work_program_path(@engagement_form)
     elsif @engagement_form.volunteers_nonprofit?
-      new_volunteer_path(engagement_form_id: @engagement_form.id)
+      new_engagement_form_volunteer_path(@engagement_form)
     else
       summary_path(@engagement_form.id)
     end

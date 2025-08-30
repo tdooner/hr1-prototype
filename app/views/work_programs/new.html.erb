@@ -6,8 +6,7 @@
       Please provide details about your work program to help verify that you meet the Community Engagement Requirements.
     </p>
     
-    <%= form_with url: work_programs_path, method: :post, local: true, class: "usa-form" do |form| %>
-      <%= form.hidden_field :engagement_form_id, value: @engagement_form.id %>
+    <%= form_with url: engagement_form_work_programs_path(@engagement_form), method: :post, local: true, class: "usa-form" do |form| %>
       
       <fieldset class="usa-fieldset">
         <legend class="usa-legend">Work Program Details</legend>
@@ -23,7 +22,7 @@
       
       <div class="usa-form-group">
         <%= form.submit "Continue", class: "usa-button" %>
-        <%= link_to "Back", new_question_path(engagement_form_id: @engagement_form.id), class: "usa-button usa-button--outline" %>
+        <%= link_to "Back", new_engagement_form_question_path(@engagement_form), class: "usa-button usa-button--outline" %>
       </div>
     <% end %>
   </div>
