@@ -1,0 +1,11 @@
+{
+  "name": "app",
+  "private": "true",
+  "dependencies": {
+    "@uswds/uswds": "^3.13.0",
+    "sass": "^1.91.0"
+  },
+  "scripts": {
+    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --silence-deprecation=global-builtin --silence-deprecation=mixed-decls --no-source-map --load-path=node_modules/@uswds/uswds/packages"
+  }
+}
