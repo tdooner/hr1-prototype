@@ -20,6 +20,6 @@ class SummaryController < ApplicationController
     @engagement_form.update(completed: true)
     
     # Redirect to the final summary page
-    redirect_to summary_path(@engagement_form), notice: 'Form submitted successfully!'
+    redirect_to summary_path(@engagement_form)
   end
 end

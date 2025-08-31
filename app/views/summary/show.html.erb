@@ -1,6 +1,6 @@
 <div class="grid-row">
   <div class="grid-col-12 usa-prose">
-    <h1>Confirmation Page</h1>
+    <h1>Thank you for verifying your information</h1>
     
     <% if @engagement_form.completed? %>
       <div class="usa-alert usa-alert--success" role="alert">
@@ -22,12 +22,12 @@
       </div>
     </div>
     
-    <h2 class="usa-prose">Engagement Activities</h2>
+    <h2 class="usa-prose">Community Engagement Details</h2>
     
     <% if @engagement_form.has_job? %>
       <div class="usa-summary-box">
         <div class="usa-summary-box__body">
-          <h3 class="usa-summary-box__heading">✅ Employment</h3>
+          <h3 class="usa-summary-box__heading">Employment</h3>
           <div class="usa-summary-box__text">
             <% if @engagement_form.job_paychecks.any? %>
               <div class="usa-table-container--scrollable" tabindex="0">
@@ -63,7 +63,7 @@
     <% if @engagement_form.is_student? %>
       <div class="usa-summary-box">
         <div class="usa-summary-box__body">
-          <h3 class="usa-summary-box__heading">✅ Student Status</h3>
+          <h3 class="usa-summary-box__heading">School Attendance</h3>
           <div class="usa-summary-box__text">
             <% if @engagement_form.school_name.present? %>
               <p><strong>School:</strong> <%= @engagement_form.school_name %></p>
@@ -84,7 +84,7 @@
     <% if @engagement_form.enrolled_work_program? %>
       <div class="usa-summary-box">
         <div class="usa-summary-box__body">
-          <h3 class="usa-summary-box__heading">✅ Work Program</h3>
+          <h3 class="usa-summary-box__heading">Work Program Participation</h3>
           <div class="usa-summary-box__text">
             <% if @engagement_form.work_program_name.present? %>
               <p><strong>Work Program Name:</strong> <%= @engagement_form.work_program_name %></p>
@@ -100,7 +100,7 @@
     <% if @engagement_form.volunteers_nonprofit? %>
       <div class="usa-summary-box">
         <div class="usa-summary-box__body">
-          <h3 class="usa-summary-box__heading">✅ Volunteer Work</h3>
+          <h3 class="usa-summary-box__heading">Volunteering</h3>
           <div class="usa-summary-box__text">
             <% if @engagement_form.volunteer_shifts.any? %>
               <div class="usa-table-container--scrollable" tabindex="0">
