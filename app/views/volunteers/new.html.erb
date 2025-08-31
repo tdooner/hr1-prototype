@@ -52,7 +52,7 @@
     </div>
 
     <div class="usa-form-group">
-      <%= form_with url: engagement_form_volunteers_path(@engagement_form), method: :post, local: true do |form| %>
+      <%= form_with url: engagement_form_volunteers_path(@engagement_form), method: :post, local: true, class: "usa-form usa-form--large" do |form| %>
         <%= hidden_field_tag :from_review, params[:from_review] if params[:from_review] %>
         <%= form.submit "Continue", class: "usa-button" %>
       <% end %>
