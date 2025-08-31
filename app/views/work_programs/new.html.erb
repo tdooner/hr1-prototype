@@ -1,10 +1,6 @@
 <div class="grid-row">
   <div class="grid-col-12 usa-prose">
-    <h1>Work Program Details</h1>
-    
-    <p class="usa-intro">
-      Please provide details about your work program participation in <%= @engagement_form.prior_month_name %> to help verify that you meet the Community Engagement Requirements.
-    </p>
+    <h1>Tell us about the work program you attended</h1>
     
     <% if @engagement_form.errors.any? %>
       <div class="usa-alert usa-alert--error" role="alert">
@@ -23,11 +19,11 @@
       <%= hidden_field_tag :from_review, params[:from_review] if params[:from_review] %>
       
       <fieldset class="usa-fieldset">
-        <legend class="usa-legend--large">Work Program Details</legend>
+        <legend>Please provide details about the work program you participated in during <strong><%= @engagement_form.prior_month_name %></strong>.</legend>
         
-        <%= form.text_field :work_program_name, "Work Program Name", "Enter the name of the work program you are enrolled in." %>
+        <%= form.text_field :work_program_name, "Work Program Name", "Enter the name of the work program." %>
         
-        <%= form.number_field :hours_attended, "Hours Attended", "Enter the total number of hours you have attended in this work program.", step: "0.01", min: "0" %>
+        <%= form.number_field :hours_attended, "Hours Attended", "Enter the total number of hours you spent in this work program during #{@engagement_form.prior_month_name}.", step: "0.01", min: "0" %>
       </fieldset>
       
       <div class="usa-form-group">

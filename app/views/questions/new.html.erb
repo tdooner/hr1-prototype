@@ -1,12 +1,10 @@
 <div class="grid-row">
   <div class="grid-col-12 usa-prose">
-    <h1>Community Engagement Requirements</h1>
+    <h1>Which of these apply to you?</h1>
     
     <div class="usa-prose">
-      <h3>Requirements Overview</h3>
       <p>
-        To meet the Community Engagement Requirements, you must demonstrate either a certain amount of income or hours spent on qualifying activities. 
-        Please answer the following questions to help determine which requirements apply to your situation.
+        To meet the Medicaid Community Engagement Requirements, you must verify either a certain amount of income or hours spent on qualifying activities. 
       </p>
     </div>
     
@@ -14,7 +12,7 @@
       <%= hidden_field_tag :from_review, params[:from_review] if params[:from_review] %>
       
       <fieldset class="usa-fieldset">
-        <legend class="usa-legend--large">Check any of these that apply:</legend>
+        <legend class="usa-legend">Check any of these that apply:</legend>
         
         <%= form.check_box :has_job, "I have a job", nil, {}, "yes", "no" %>
         <%= form.check_box :is_student, "I am a student", nil, {}, "yes", "no" %>

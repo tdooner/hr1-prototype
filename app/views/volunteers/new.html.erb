@@ -1,15 +1,15 @@
 <div class="grid-row">
   <div class="grid-col-12 usa-prose">
-    <h1>Volunteer Hours</h1>
+    <h1>Tell us about your volunteering</h1>
     
-    <p class="usa-intro">
-      Please add all the volunteer shifts you completed in <%= @engagement_form.prior_month_name %> to help verify that you meet the Community Engagement Requirements.
+    <p>
+      Add all the time you spent volunteering in <strong><%= @engagement_form.prior_month_name %></strong>.  If you volunteered on more than one day, add each day separately.
     </p>
 
     <% if @volunteer_shifts.any? %>
       <div class="usa-table-container--scrollable" tabindex="0">
         <table class="usa-table">
-          <caption>Your Volunteer Shifts</caption>
+          <caption>Your Volunteer Hours</caption>
           <thead>
             <tr>
               <th scope="col">Organization</th>
@@ -18,7 +18,7 @@
             </tr>
           </thead>
           <tbody>
-            <% @volunteer_shifts.each do |shift| %>
+            <% @volunteer_shifts.ordered_by_date.each do |shift| %>
               <tr>
                 <td><%= shift.organization_name %></td>
                 <td><%= shift.shift_date.strftime("%B %d, %Y") %></td>
@@ -28,27 +28,16 @@
           </tbody>
         </table>
       </div>
-      
-      <div class="usa-summary-box">
-        <div class="usa-summary-box__body">
-          <h3 class="usa-summary-box__heading">
-            Total Volunteer Hours
-          </h3>
-          <div class="usa-summary-box__text">
-            <p class="font-sans-3xl"><%= @volunteer_shifts.sum(&:hours) %> hours</p>
-          </div>
-        </div>
-      </div>
     <% else %>
-      <div class="usa-alert usa-alert--info" role="alert">
+      <div class="usa-alert usa-alert--info usa-alert--slim" role="alert">
         <div class="usa-alert__body">
-          <p class="usa-alert__text">No volunteer shifts have been added yet. Click "Add Volunteer Hours" to get started.</p>
+          <p class="usa-alert__text">No volunteer hours have been added yet. Click "Add Volunteer Hours" to get started.</p>
         </div>
       </div>
     <% end %>
 
     <div class="usa-form-group">
-      <%= link_to "Add Volunteer Hours", new_engagement_form_volunteer_shift_path(@engagement_form), class: "usa-button" %>
+      <%= link_to "Add Volunteer Hours", new_engagement_form_volunteer_shift_path(@engagement_form), class: "usa-button usa-button--outline" %>
     </div>
 
     <div class="usa-form-group">

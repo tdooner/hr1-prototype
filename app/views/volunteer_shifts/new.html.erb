@@ -1,9 +1,9 @@
 <div class="grid-row">
   <div class="grid-col-12 usa-prose">
-    <h1>Add Volunteer Hours</h1>
+    <h1>Tell us about your volunteering</h1>
     
-    <p class="usa-intro">
-      Please provide details about your volunteer shift from <%= @engagement_form.prior_month_name %>.
+    <p>
+      Add details about your volunteering during <strong><%= @engagement_form.prior_month_name %></strong>. Your state Medicaid agency may call the organization to confirm this information.
     </p>
     
     <% if @volunteer_shift.errors.any? %>
@@ -22,11 +22,9 @@
     <%= form_with model: [@engagement_form, @volunteer_shift], local: true, class: "usa-form usa-form--large", builder: UswdsFormBuilder do |form| %>
       
       <fieldset class="usa-fieldset">
-        <legend class="usa-legend--large">Volunteer Shift Details</legend>
-        
         <%= form.text_field :organization_name, "Organization Name", "Enter the name of the nonprofit organization where you volunteered." %>
         
-        <%= form.date_field :shift_date, "Date of Volunteer Shift", "Select the date when you completed this volunteer shift." %>
+        <%= form.date_field :shift_date, "Date of Volunteer Shift", "Select the date when you volunteered." %>
         
         <%= form.number_field :hours, "Number of Hours", "Enter the number of hours you volunteered (e.g., 2.5 for 2 hours and 30 minutes).", step: "0.5", min: "0.5" %>
       </fieldset>

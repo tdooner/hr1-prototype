@@ -1,10 +1,6 @@
 <div class="grid-row">
   <div class="grid-col-12 usa-prose">
-    <h1>Student Details</h1>
-    
-    <p class="usa-intro">
-      Please provide details about your education status in <%= @engagement_form.prior_month_name %> to help verify that you meet the Community Engagement Requirements.
-    </p>
+    <h1>Tell us about your school</h1>
     
     <% if @engagement_form.errors.any? %>
       <div class="usa-alert usa-alert--error" role="alert">
@@ -23,7 +19,7 @@
       <%= hidden_field_tag :from_review, params[:from_review] if params[:from_review] %>
       
       <fieldset class="usa-fieldset">
-        <legend class="usa-legend--large">Student Details</legend>
+        <legend>In <strong><%= @engagement_form.prior_month_name %></strong>, what school did you attend?</legend>
         
         <%= form.text_field :school_name, "School Name" %>
         

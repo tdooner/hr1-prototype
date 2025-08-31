@@ -5,5 +5,5 @@ class VolunteerShift < ApplicationRecord
   validates :shift_date, presence: true
   validates :hours, presence: true, numericality: { greater_than: 0 }
   
-  scope :ordered_by_date, -> { order(shift_date: :desc) }
+  scope :ordered_by_date, -> { order(shift_date: :asc) }
 end

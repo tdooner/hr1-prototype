@@ -1,9 +1,9 @@
 <div class="grid-row">
   <div class="grid-col-12 usa-prose">
-    <h1>Add Paycheck</h1>
+    <h1>Tell us about your job</h1>
     
-    <p class="usa-intro">
-      Please provide details about your paycheck from <%= @engagement_form.prior_month_name %>.
+    <p>
+      Please provide details about your paycheck from <strong><%= @engagement_form.prior_month_name %></strong>.
     </p>
     
     <% if @job_paycheck.errors.any? %>
@@ -28,7 +28,7 @@
         
         <%= form.number_field :gross_pay_amount, "Gross Pay Amount ($)", "Enter the gross pay amount before taxes and deductions.", step: "0.01", min: "0" %>
         
-        <%= form.number_field :hours_worked, "Hours Worked", "Enter the number of hours you worked for this paycheck (e.g., 40.0 for 40 hours).", step: "0.1", min: "0" %>
+        <%= form.number_field :hours_worked, "Hours Worked", "Enter the number of hours you were paid for working on this paycheck, including overtime.", step: "0.1", min: "0" %>
       </fieldset>
       
       <div class="usa-form-group">

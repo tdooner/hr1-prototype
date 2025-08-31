@@ -1,13 +1,16 @@
 <div class="grid-row">
   <div class="grid-col-12 usa-prose">
-    <h1>Employment Details</h1>
+    <h1>Tell us about your job</h1>
     
-    <p class="usa-intro">
-      Please add all the paychecks you received in <%= @engagement_form.prior_month_name %> to help verify that you meet the Community Engagement Requirements.
+    <p>
+      We need to know how much you made from working in <strong><%= @engagement_form.prior_month_name %></strong>.
+    </p>
+    <p>
+      Click the "Add Paycheck" button to provide details for every paystub you received during that month.
     </p>
 
     <% if @engagement_form.job_paychecks.any? %>
-      <div class="usa-table-container--scrollable" tabindex="0">
+      <div class="usa-table-container--scrollable">
         <table class="usa-table">
           <caption>Your Paychecks</caption>
           <thead>
@@ -28,18 +31,6 @@
           </tbody>
         </table>
       </div>
-      
-      <div class="usa-summary-box">
-        <div class="usa-summary-box__body">
-          <h3 class="usa-summary-box__heading">
-            Total Employment Summary
-          </h3>
-          <div class="usa-summary-box__text">
-            <p class="font-sans-3xl"><%= @engagement_form.job_paychecks.sum(&:hours_worked) %> hours</p>
-            <p class="font-sans-3xl">$<%= number_with_precision(@engagement_form.job_paychecks.sum(&:gross_pay_amount), precision: 2) %> total gross pay</p>
-          </div>
-        </div>
-      </div>
     <% else %>
       <div class="usa-alert usa-alert--info" role="alert">
         <div class="usa-alert__body">
@@ -49,7 +40,9 @@
     <% end %>
 
     <div class="usa-form-group">
-      <%= link_to "Add Paycheck", new_engagement_form_job_paycheck_path(@engagement_form), class: "usa-button" %>
+      <%= link_to new_engagement_form_job_paycheck_path(@engagement_form), class: "usa-button usa-button--outline" do %>
+        Add Paycheck
+      <% end %>
     </div>
 
     <div class="usa-form-group">

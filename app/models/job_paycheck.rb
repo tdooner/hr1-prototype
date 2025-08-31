@@ -5,5 +5,5 @@ class JobPaycheck < ApplicationRecord
   validates :gross_pay_amount, presence: true, numericality: { greater_than: 0 }
   validates :hours_worked, presence: true, numericality: { greater_than: 0 }
 
-  scope :ordered_by_date, -> { order(pay_date: :desc) }
+  scope :ordered_by_date, -> { order(pay_date: :asc) }
 end
