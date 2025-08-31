@@ -25,6 +25,16 @@ class EngagementForm < ApplicationRecord
     prior_month.strftime("%B %Y")
   end
   
+  def meets_requirements?
+    verifier = EngagementRequirementsVerifier.new(self)
+    verifier.meets_requirements?
+  end
+  
+  def verification_details
+    verifier = EngagementRequirementsVerifier.new(self)
+    verifier.verification_details
+  end
+  
   private
   
   def school_hours_required_when_less_than_half_time

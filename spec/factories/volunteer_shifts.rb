@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :volunteer_shift do
-    engagement_form { nil }
+    association :engagement_form
     organization_name { "MyString" }
-    shift_date { "2025-08-30" }
-    hours { "9.99" }
+    shift_date { Date.current - 1.week }
+    hours { 9.99 }
   end
 end

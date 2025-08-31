@@ -126,6 +126,67 @@ validates :hours_worked, presence: true, numericality: { greater_than: 0 }
 scope :ordered_by_date, -> { order(pay_date: :desc) }
 ```
 
+## Requirements Verification System
+
+### EngagementRequirementsVerifier Service
+A service class that determines whether an Engagement Form meets the Medicaid Community Engagement Requirements.
+
+#### Requirements Logic
+A user meets the requirements if they satisfy **any one** of these conditions:
+1. **Enrolled half-time or more in school** - Automatic qualification
+2. **Gross monthly income ≥ $580** - Based on job paychecks in prior month
+3. **Total hours ≥ 80** - Combined from:
+   - Work hours (from job paychecks)
+   - School hours (only if enrolled less than half-time)
+   - Work program hours
+   - Volunteer hours
+
+#### Service Methods
+```ruby
+# Main verification
+verifier = EngagementRequirementsVerifier.new(engagement_form)
+verifier.meets_requirements? # => true/false
+
+# Detailed breakdown
+verifier.verification_details # => Hash with all calculations
+```
+
+#### Convenience Methods on EngagementForm
+```ruby
+engagement_form.meets_requirements? # => true/false
+engagement_form.verification_details # => Hash with all calculations
+```
+
+#### Unused Data Tracking
+The verifier tracks data that falls outside the prior month and provides detailed information about what wasn't used:
+
+```ruby
+details = verifier.verification_details
+unused_data = details[:unused_data]
+
+# Example structure:
+{
+  job_paychecks: {
+    count: 2,
+    total_income: 1800.0,
+    total_hours: 180.0,
+    months: ["June 2025", "July 2025"]
+  },
+  volunteer_shifts: {
+    count: 1,
+    total_hours: 100.0,
+    months: ["May 2025"]
+  }
+}
+```
+
+#### Key Features
+- **Month-based calculations** - All income and hours calculated for the month prior to application date
+- **Flexible hour counting** - School hours only count if enrolled less than half-time
+- **Comprehensive testing** - 30+ test cases covering all scenarios and edge cases
+- **Detailed reporting** - Returns breakdown of all calculations for transparency
+- **Unused data tracking** - Identifies and reports data from other months that wasn't used for verification
+
 ## Key Controllers
 
 ### EngagementFormsController

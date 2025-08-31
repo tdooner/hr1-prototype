@@ -1,8 +1,108 @@
 <div class="header">
-  <h1>Community Engagement Requirements</h1>
+  <h1>Community Engagement Requirement Report</h1>
   <p>Form ID: <%= @engagement_form.id %></p>
   <p>Submitted: <%= @engagement_form.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
 </div>
+
+<% verifier = EngagementRequirementsVerifier.new(@engagement_form) %>
+<% details = verifier.verification_details %>
+
+<% if verifier.meets_requirements? %>
+  <div class="usa-alert usa-alert--success" style="margin: 20px 0; padding: 15px; background-color: #d4edda; border: 1px solid #c3e6cb; border-radius: 4px;">
+    <div class="usa-alert__body">
+      <h3 class="usa-alert__heading" style="margin: 0 0 10px 0; color: #155724; font-size: 18px;">Requirements Met</h3>
+      <div class="usa-alert__text" style="color: #155724;">
+        <% if details[:enrolled_half_time_or_more] %>
+          <p style="margin: 5px 0;"><strong>Qualification:</strong> Enrolled at least half-time in school</p>
+        <% elsif details[:income_requirement_met] %>
+          <p style="margin: 5px 0;"><strong>Qualification:</strong> Gross monthly income of $<%= number_with_precision(details[:total_income], precision: 2) %> (meets minimum of $580)</p>
+        <% elsif details[:hours_requirement_met] %>
+          <p style="margin: 5px 0;"><strong>Qualification:</strong> Total of <%= details[:total_hours] %> hours (meets minimum of 80 hours)</p>
+          <p style="margin: 5px 0; font-size: 14px;">
+            Breakdown: 
+            <% breakdown_parts = [] %>
+            <% breakdown_parts << "#{details[:work_hours]} work hours" if details[:work_hours] > 0 %>
+            <% breakdown_parts << "#{details[:school_hours]} school hours" if details[:school_hours] > 0 %>
+            <% breakdown_parts << "#{details[:work_program_hours]} work program hours" if details[:work_program_hours] > 0 %>
+            <% breakdown_parts << "#{details[:volunteer_hours]} volunteer hours" if details[:volunteer_hours] > 0 %>
+            <%= breakdown_parts.join(", ") %>
+          </p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class="usa-alert usa-alert--warning" style="margin: 20px 0; padding: 15px; background-color: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px;">
+    <div class="usa-alert__body">
+      <h3 class="usa-alert__heading" style="margin: 0 0 10px 0; color: #856404; font-size: 18px;">Requirements Not Met</h3>
+      <div class="usa-alert__text" style="color: #856404;">
+        <p style="margin: 5px 0;">Based on the information provided, the user does not meet Community Engagement Requirements.</p>
+        
+        <p style="margin: 10px 0; font-weight: bold;">Explanation:</p>
+        <ul style="margin: 10px 0; padding-left: 20px;">
+          <% if @engagement_form.is_student? && @engagement_form.enrollment_status == "less_than_half_time" %>
+            <li style="margin: 5px 0;">Enrolled less than half-time in school</li>
+          <% elsif @engagement_form.is_student? && @engagement_form.enrollment_status == "half_time_or_more" %>
+            <li style="margin: 5px 0;">Enrolled half-time or more (should qualify - please check data)</li>
+          <% else %>
+            <li style="margin: 5px 0;">Not enrolled in school</li>
+          <% end %>
+          
+          <% if @engagement_form.has_job? %>
+            <li style="margin: 5px 0;">Gross monthly income: $<%= number_with_precision(details[:total_income], precision: 2) %> (minimum required: $580)</li>
+          <% else %>
+            <li style="margin: 5px 0;">No employment income reported</li>
+          <% end %>
+          
+          <li style="margin: 5px 0;">Total hours: <%= details[:total_hours] %> (minimum required: 80)</li>
+          <% if details[:total_hours] > 0 %>
+            <li style="margin: 5px 0; font-size: 14px; margin-left: 20px;">
+              Breakdown: 
+              <% breakdown_parts = [] %>
+              <% breakdown_parts << "#{details[:work_hours]} work hours" if details[:work_hours] > 0 %>
+              <% breakdown_parts << "#{details[:school_hours]} school hours" if details[:school_hours] > 0 %>
+              <% breakdown_parts << "#{details[:work_program_hours]} work program hours" if details[:work_program_hours] > 0 %>
+              <% breakdown_parts << "#{details[:volunteer_hours]} volunteer hours" if details[:volunteer_hours] > 0 %>
+              <%= breakdown_parts.join(", ") %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% if details[:unused_data].any? %>
+  <div class="usa-alert usa-alert--info" style="margin: 20px 0; padding: 15px; background-color: #d1ecf1; border: 1px solid #bee5eb; border-radius: 4px;">
+    <div class="usa-alert__body">
+      <h3 class="usa-alert__heading" style="margin: 0 0 10px 0; color: #0c5460; font-size: 16px;">Data Not Used for Verification</h3>
+      <div class="usa-alert__text" style="color: #0c5460; font-size: 14px;">
+        <p style="margin: 5px 0;">The following data was not used for verification because it falls outside the prior month (<%= @engagement_form.prior_month_name %>):</p>
+        
+        <% if details[:unused_data][:job_paychecks] %>
+          <div style="margin: 10px 0;">
+            <strong>Job Paychecks:</strong>
+            <ul style="margin: 5px 0; padding-left: 20px;">
+              <li><%= details[:unused_data][:job_paychecks][:count] %> paycheck(s) from <%= details[:unused_data][:job_paychecks][:months].join(", ") %></li>
+              <li>Total income: $<%= number_with_precision(details[:unused_data][:job_paychecks][:total_income], precision: 2) %></li>
+              <li>Total hours: <%= details[:unused_data][:job_paychecks][:total_hours] %></li>
+            </ul>
+          </div>
+        <% end %>
+        
+        <% if details[:unused_data][:volunteer_shifts] %>
+          <div style="margin: 10px 0;">
+            <strong>Volunteer Shifts:</strong>
+            <ul style="margin: 5px 0; padding-left: 20px;">
+              <li><%= details[:unused_data][:volunteer_shifts][:count] %> shift(s) from <%= details[:unused_data][:volunteer_shifts][:months].join(", ") %></li>
+              <li>Total hours: <%= details[:unused_data][:volunteer_shifts][:total_hours] %></li>
+            </ul>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
 
 <div class="section">
   <h2>Basic Information</h2>
@@ -132,9 +232,4 @@
       <div class="field-value">No volunteer shifts have been added yet.</div>
     </div>
   <% end %>
-</div>
-
-<div class="footer">
-  <p>This document was generated by the Community Engagement Prototype application.</p>
-  <p>For questions or support, please contact your system administrator.</p>
 </div>
