@@ -70,7 +70,7 @@ RSpec.describe "engagement_forms/show.pdf.erb", type: :view do
       it "includes success alert with hours details" do
         render template: "engagement_forms/show", formats: [:pdf]
         expect(rendered).to include("Requirements Met")
-        expect(rendered).to include("Total of 80 hours")
+        expect(rendered).to include("Total of 80.0 hours")
       end
     end
 

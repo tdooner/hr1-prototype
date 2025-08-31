@@ -27,7 +27,7 @@
       <div class="usa-summary-box__body">
         <h3 class="usa-summary-box__heading">
           Which of these apply to you?
-          <%= link_to "Edit", new_engagement_form_question_path(@engagement_form, from_review: true), class: "usa-button usa-button--small usa-button--outline", style: "float: right;" %>
+          <%= link_to "Edit", new_question_path(from_review: true), class: "usa-button usa-button--small usa-button--outline", style: "float: right;" %>
         </h3>
         <div class="usa-summary-box__text">
           <ul class="usa-list">
@@ -45,7 +45,7 @@
         <div class="usa-summary-box__body">
           <h3 class="usa-summary-box__heading">
             Employment Details
-            <%= link_to "Edit", new_engagement_form_job_path(@engagement_form, from_review: true), class: "usa-button usa-button--small usa-button--outline", style: "float: right;" %>
+            <%= link_to "Edit", new_job_path(from_review: true), class: "usa-button usa-button--small usa-button--outline", style: "float: right;" %>
           </h3>
           <div class="usa-summary-box__text">
             <% if @engagement_form.job_paychecks.any? %>
@@ -84,7 +84,7 @@
         <div class="usa-summary-box__body">
           <h3 class="usa-summary-box__heading">
             Student Details
-            <%= link_to "Edit", new_engagement_form_student_path(@engagement_form, from_review: true), class: "usa-button usa-button--small usa-button--outline", style: "float: right;" %>
+            <%= link_to "Edit", new_student_path(from_review: true), class: "usa-button usa-button--small usa-button--outline", style: "float: right;" %>
           </h3>
           <div class="usa-summary-box__text">
             <% if @engagement_form.school_name.present? %>
@@ -108,7 +108,7 @@
         <div class="usa-summary-box__body">
           <h3 class="usa-summary-box__heading">
             Work Program Details
-            <%= link_to "Edit", new_engagement_form_work_program_path(@engagement_form, from_review: true), class: "usa-button usa-button--small usa-button--outline", style: "float: right;" %>
+            <%= link_to "Edit", new_work_program_path(from_review: true), class: "usa-button usa-button--small usa-button--outline", style: "float: right;" %>
           </h3>
           <div class="usa-summary-box__text">
             <% if @engagement_form.work_program_name.present? %>
@@ -127,7 +127,7 @@
         <div class="usa-summary-box__body">
           <h3 class="usa-summary-box__heading">
             Volunteer Hours
-            <%= link_to "Edit", new_engagement_form_volunteer_path(@engagement_form, from_review: true), class: "usa-button usa-button--small usa-button--outline", style: "float: right;" %>
+            <%= link_to "Edit", new_volunteer_path(from_review: true), class: "usa-button usa-button--small usa-button--outline", style: "float: right;" %>
           </h3>
           <div class="usa-summary-box__text">
             <% if @engagement_form.volunteer_shifts.any? %>
@@ -170,7 +170,7 @@
     <% end %>
     
     <div class="usa-form-group">
-      <%= form_with url: submit_summary_path(@engagement_form), method: :post, local: true do |form| %>
+      <%= form_with url: submit_summary_path, method: :post, local: true do |form| %>
         <%= form.submit "Submit Form", class: "usa-button" %>
       <% end %>
     </div>

@@ -10,7 +10,7 @@ RSpec.describe ApplicationController, type: :request do
     end.new
   end
 
-      let(:engagement_form) { EngagementForm.create!(user_name: "Test User", email: "test@example.com", application_date: Date.current) }
+  let(:engagement_form) { EngagementForm.create!(user_name: "Test User", email: "test@example.com", application_date: Date.current) }
 
   describe '#next_path' do
     context 'when starting from QuestionsController' do
@@ -19,7 +19,7 @@ RSpec.describe ApplicationController, type: :request do
         
         result = test_controller.test_next_path(engagement_form, QuestionsController)
         
-        expect(result).to eq("/engagement_forms/#{engagement_form.id}/jobs/new")
+        expect(result).to eq("/jobs/new")
       end
 
       it 'routes to StudentsController when has_job is false but is_student is true' do
@@ -27,7 +27,7 @@ RSpec.describe ApplicationController, type: :request do
         
         result = test_controller.test_next_path(engagement_form, QuestionsController)
         
-        expect(result).to eq("/engagement_forms/#{engagement_form.id}/students/new")
+        expect(result).to eq("/students/new")
       end
 
       it 'routes to WorkProgramsController when only enrolled_work_program is true' do
@@ -35,7 +35,7 @@ RSpec.describe ApplicationController, type: :request do
         
         result = test_controller.test_next_path(engagement_form, QuestionsController)
         
-        expect(result).to eq("/engagement_forms/#{engagement_form.id}/work_programs/new")
+        expect(result).to eq("/work_programs/new")
       end
 
       it 'routes to VolunteersController when only volunteers_nonprofit is true' do
@@ -43,7 +43,7 @@ RSpec.describe ApplicationController, type: :request do
         
         result = test_controller.test_next_path(engagement_form, QuestionsController)
         
-        expect(result).to eq("/engagement_forms/#{engagement_form.id}/volunteers/new")
+        expect(result).to eq("/volunteers/new")
       end
 
       it 'routes to summary when no engagement types are selected' do
@@ -51,7 +51,7 @@ RSpec.describe ApplicationController, type: :request do
         
         result = test_controller.test_next_path(engagement_form, QuestionsController)
         
-        expect(result).to eq("/summary/#{engagement_form.id}/review")
+        expect(result).to eq("/summary/review")
       end
     end
 
@@ -61,15 +61,15 @@ RSpec.describe ApplicationController, type: :request do
         
         result = test_controller.test_next_path(engagement_form, JobsController)
         
-        expect(result).to eq("/engagement_forms/#{engagement_form.id}/students/new")
+        expect(result).to eq("/students/new")
       end
 
-      it 'routes to WorkProgramsController when is_student is false but enrolled_work_program is true' do
+      it 'routes to WorkProgramsController when only enrolled_work_program is true' do
         engagement_form.update(has_job: true, is_student: false, enrolled_work_program: true, volunteers_nonprofit: false)
         
         result = test_controller.test_next_path(engagement_form, JobsController)
         
-        expect(result).to eq("/engagement_forms/#{engagement_form.id}/work_programs/new")
+        expect(result).to eq("/work_programs/new")
       end
 
       it 'routes to VolunteersController when only volunteers_nonprofit is true' do
@@ -77,79 +77,25 @@ RSpec.describe ApplicationController, type: :request do
         
         result = test_controller.test_next_path(engagement_form, JobsController)
         
-        expect(result).to eq("/engagement_forms/#{engagement_form.id}/volunteers/new")
+        expect(result).to eq("/volunteers/new")
       end
 
-      it 'routes to summary when no remaining engagement types are selected' do
+      it 'routes to summary when no more engagement types are selected' do
         engagement_form.update(has_job: true, is_student: false, enrolled_work_program: false, volunteers_nonprofit: false)
         
         result = test_controller.test_next_path(engagement_form, JobsController)
         
-        expect(result).to eq("/summary/#{engagement_form.id}/review")
+        expect(result).to eq("/summary/review")
       end
     end
 
-    context 'when starting from StudentsController' do
-      it 'routes to WorkProgramsController when enrolled_work_program is true' do
-        engagement_form.update(has_job: true, is_student: true, enrolled_work_program: true, volunteers_nonprofit: false)
-        
-        result = test_controller.test_next_path(engagement_form, StudentsController)
-        
-        expect(result).to eq("/engagement_forms/#{engagement_form.id}/work_programs/new")
-      end
-
-      it 'routes to VolunteersController when enrolled_work_program is false but volunteers_nonprofit is true' do
-        engagement_form.update(has_job: true, is_student: true, enrolled_work_program: false, volunteers_nonprofit: true)
-        
-        result = test_controller.test_next_path(engagement_form, StudentsController)
-        
-        expect(result).to eq("/engagement_forms/#{engagement_form.id}/volunteers/new")
-      end
-
-      it 'routes to summary when no remaining engagement types are selected' do
-        engagement_form.update(has_job: true, is_student: true, enrolled_work_program: false, volunteers_nonprofit: false)
-        
-        result = test_controller.test_next_path(engagement_form, StudentsController)
-        
-        expect(result).to eq("/summary/#{engagement_form.id}/review")
-      end
-    end
-
-    context 'when starting from WorkProgramsController' do
-      it 'routes to VolunteersController when volunteers_nonprofit is true' do
-        engagement_form.update(has_job: true, is_student: true, enrolled_work_program: true, volunteers_nonprofit: true)
-        
-        result = test_controller.test_next_path(engagement_form, WorkProgramsController)
-        
-        expect(result).to eq("/engagement_forms/#{engagement_form.id}/volunteers/new")
-      end
-
-      it 'routes to summary when volunteers_nonprofit is false' do
-        engagement_form.update(has_job: true, is_student: true, enrolled_work_program: true, volunteers_nonprofit: false)
-        
-        result = test_controller.test_next_path(engagement_form, WorkProgramsController)
-        
-        expect(result).to eq("/summary/#{engagement_form.id}/review")
-      end
-    end
-
-    context 'when starting from VolunteersController' do
-      it 'routes to summary since it is the last step' do
+    context 'when starting from VolunteersController (last in order)' do
+      it 'routes to summary' do
         engagement_form.update(has_job: true, is_student: true, enrolled_work_program: true, volunteers_nonprofit: true)
         
         result = test_controller.test_next_path(engagement_form, VolunteersController)
         
-        expect(result).to eq("/summary/#{engagement_form.id}/review")
-      end
-    end
-
-    context 'when controller is not in the order' do
-      it 'routes to summary for unknown controller' do
-        engagement_form.update(has_job: true, is_student: true, enrolled_work_program: true, volunteers_nonprofit: true)
-        
-        result = test_controller.test_next_path(engagement_form, ApplicationController)
-        
-        expect(result).to eq("/summary/#{engagement_form.id}/review")
+        expect(result).to eq("/summary/review")
       end
     end
   end

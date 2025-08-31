@@ -19,7 +19,7 @@
       </div>
     <% end %>
     
-    <%= form_with model: [@engagement_form, @volunteer_shift], local: true, class: "usa-form usa-form--large", builder: UswdsFormBuilder do |form| %>
+    <%= form_with model: @volunteer_shift, url: volunteer_shifts_path, local: true, class: "usa-form usa-form--large", builder: UswdsFormBuilder do |form| %>
       
       <fieldset class="usa-fieldset">
         <%= form.text_field :organization_name, "Organization Name", "Enter the name of the nonprofit organization where you volunteered." %>
@@ -31,7 +31,7 @@
       
       <div class="usa-form-group">
         <%= form.submit "Save", class: "usa-button" %>
-        <%= link_to "Cancel", new_engagement_form_volunteer_path(@engagement_form), class: "usa-button usa-button--outline" %>
+        <%= link_to "Cancel", new_volunteer_path, class: "usa-button usa-button--outline" %>
       </div>
     <% end %>
   </div>

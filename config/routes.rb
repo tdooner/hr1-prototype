@@ -1,24 +1,23 @@
 Rails.application.routes.draw do
   # Community Engagement Form flow
-  resources :engagement_forms, only: [:new, :create, :show, :edit, :update] do
-    member do
-      get :pdf
-    end
-    
-    # Nested resources that require engagement_form_id
-    resources :questions, only: [:new, :create]
-    resources :jobs, only: [:new, :create]
-    resources :students, only: [:new, :create]
-    resources :work_programs, only: [:new, :create]
-    resources :volunteers, only: [:new, :create]
-    resources :volunteer_shifts, only: [:new, :create]
-    resources :job_paychecks, only: [:new, :create]
-  end
+  resources :engagement_forms, only: [:new, :create, :show, :edit, :update]
   
-  # Summary pages
-  get "summary/:engagement_form_id", to: "summary#show", as: :summary
-  get "summary/:engagement_form_id/review", to: "summary#review", as: :review_summary
-  post "summary/:engagement_form_id/submit", to: "summary#submit", as: :submit_summary
+  # Form flow pages (session-based)
+  resources :questions, only: [:new, :create]
+  resources :jobs, only: [:new, :create]
+  resources :students, only: [:new, :create]
+  resources :work_programs, only: [:new, :create]
+  resources :volunteers, only: [:new, :create]
+  resources :volunteer_shifts, only: [:new, :create]
+  resources :job_paychecks, only: [:new, :create]
+  
+  # Summary pages (session-based)
+  get "summary", to: "summary#show", as: :summary
+  get "summary/review", to: "summary#review", as: :review_summary
+  post "summary/submit", to: "summary#submit", as: :submit_summary
+  
+  # PDF download (session-based)
+  get "download_report", to: "engagement_forms#show", as: :pdf_download
   
   # Root route
   root "engagement_forms#new"

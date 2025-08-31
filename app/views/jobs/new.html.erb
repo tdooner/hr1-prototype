@@ -40,13 +40,13 @@
     <% end %>
 
     <div class="usa-form-group">
-      <%= link_to new_engagement_form_job_paycheck_path(@engagement_form), class: "usa-button usa-button--outline" do %>
+      <%= link_to new_job_paycheck_path, class: "usa-button usa-button--outline" do %>
         Add Paycheck
       <% end %>
     </div>
 
     <div class="usa-form-group">
-      <%= form_with url: engagement_form_jobs_path(@engagement_form), method: :post, local: true, class: "usa-form usa-form--large" do |form| %>
+      <%= form_with url: jobs_path, method: :post, local: true, class: "usa-form usa-form--large" do |form| %>
         <%= hidden_field_tag :from_review, params[:from_review] if params[:from_review] %>
         <%= form.submit "Continue", class: "usa-button" %>
       <% end %>

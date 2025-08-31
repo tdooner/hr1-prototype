@@ -1,10 +1,10 @@
 class QuestionsController < ApplicationController
   def new
-    @engagement_form = EngagementForm.find(params[:engagement_form_id])
+    @engagement_form = current_engagement_form
   end
 
   def create
-    @engagement_form = EngagementForm.find(params[:engagement_form_id])
+    @engagement_form = current_engagement_form
     
     # Handle both nested and direct parameters
     engagement_params = params[:engagement_form] || params
@@ -20,7 +20,7 @@ class QuestionsController < ApplicationController
     
     # Check if user came from review page
     if params[:from_review] == "true"
-      redirect_to review_summary_path(@engagement_form)
+      redirect_to review_summary_path
     else
       # Use the new next_path method
       redirect_to next_path(@engagement_form)

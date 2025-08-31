@@ -1,15 +1,15 @@
 class VolunteerShiftsController < ApplicationController
   def new
-    @engagement_form = EngagementForm.find(params[:engagement_form_id])
+    @engagement_form = current_engagement_form
     @volunteer_shift = @engagement_form.volunteer_shifts.build
   end
 
   def create
-    @engagement_form = EngagementForm.find(params[:engagement_form_id])
+    @engagement_form = current_engagement_form
     @volunteer_shift = @engagement_form.volunteer_shifts.build(volunteer_shift_params)
     
     if @volunteer_shift.save
-      redirect_to new_engagement_form_volunteer_path(@engagement_form), notice: 'Volunteer shift was successfully added.'
+      redirect_to new_volunteer_path, notice: 'Volunteer shift was successfully added.'
     else
       render :new, status: :unprocessable_entity
     end

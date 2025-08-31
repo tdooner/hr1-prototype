@@ -19,7 +19,7 @@
       </div>
     <% end %>
     
-    <%= form_with model: [@engagement_form, @job_paycheck], local: true, class: "usa-form usa-form--large", builder: UswdsFormBuilder do |form| %>
+    <%= form_with model: @job_paycheck, url: job_paychecks_path, local: true, class: "usa-form usa-form--large", builder: UswdsFormBuilder do |form| %>
       
       <fieldset class="usa-fieldset">
         <legend class="usa-legend--large">Paycheck Details</legend>
@@ -33,7 +33,7 @@
       
       <div class="usa-form-group">
         <%= form.submit "Save", class: "usa-button" %>
-        <%= link_to "Cancel", new_engagement_form_job_path(@engagement_form), class: "usa-button usa-button--outline" %>
+        <%= link_to "Cancel", new_job_path, class: "usa-button usa-button--outline" %>
       </div>
     <% end %>
   </div>

@@ -1,4 +1,6 @@
 class EngagementFormsController < ApplicationController
+  skip_before_action :ensure_engagement_form_session, only: [:new, :create]
+
   def new
     @engagement_form = EngagementForm.new(application_date: Date.current)
   end
@@ -7,14 +9,15 @@ class EngagementFormsController < ApplicationController
     @engagement_form = EngagementForm.new(engagement_form_params)
     
     if @engagement_form.save
-      redirect_to new_engagement_form_question_path(@engagement_form)
+      set_engagement_form_session(@engagement_form)
+      redirect_to new_question_path
     else
       render :new, status: :unprocessable_entity
     end
   end
 
   def show
-    @engagement_form = EngagementForm.find(params[:id])
+    @engagement_form = current_engagement_form
 
     respond_to do |format|
       format.html
@@ -28,14 +31,14 @@ class EngagementFormsController < ApplicationController
   end
 
   def edit
-    @engagement_form = EngagementForm.find(params[:id])
+    @engagement_form = current_engagement_form
   end
 
   def update
-    @engagement_form = EngagementForm.find(params[:id])
+    @engagement_form = current_engagement_form
     
     if @engagement_form.update(engagement_form_params)
-      redirect_to review_summary_path(@engagement_form), notice: 'Basic information updated successfully!'
+      redirect_to review_summary_path, notice: 'Basic information updated successfully!'
     else
       render :edit, status: :unprocessable_entity
     end

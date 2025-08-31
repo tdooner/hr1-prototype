@@ -1,20 +1,28 @@
 require 'rails_helper'
 
 RSpec.describe "Jobs", type: :request do
-  let(:engagement_form) { EngagementForm.create!(user_name: "Test User", email: "test@example.com", application_date: Date.current) }
-
   describe "GET /new" do
-    it "returns http success" do
-      get "/engagement_forms/#{engagement_form.id}/jobs/new"
+    it "redirects to new form when no session exists" do
+      get "/jobs/new"
+      expect(response).to have_http_status(:redirect)
+      expect(response).to redirect_to(new_engagement_form_path)
+    end
+
+    it "returns http success when session exists" do
+      navigate_to_jobs
+      get "/jobs/new"
       expect(response).to have_http_status(:success)
     end
   end
 
   describe "POST /create" do
-    it "returns http success" do
-      post "/engagement_forms/#{engagement_form.id}/jobs", params: {}
+    before { navigate_to_jobs }
+
+    it "redirects to next step after successful creation" do
+      post "/jobs", params: {}
       expect(response).to have_http_status(:redirect)
+      # Should redirect to the next step in the flow
+      expect(response).to redirect_to(review_summary_path)
     end
   end
-
 end
