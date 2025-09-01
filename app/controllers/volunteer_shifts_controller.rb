@@ -7,9 +7,9 @@ class VolunteerShiftsController < ApplicationController
   def create
     @engagement_form = current_engagement_form
     @volunteer_shift = @engagement_form.volunteer_shifts.build(volunteer_shift_params)
-    
+
     if @volunteer_shift.save
-      redirect_to new_volunteer_path, notice: 'Volunteer shift was successfully added.'
+      redirect_to new_volunteer_path, notice: "Volunteer shift was successfully added."
     else
       render :new, status: :unprocessable_entity
     end

@@ -375,6 +375,21 @@ export PATH="$HOME/.local/share/gem/ruby/3.4.0/bin:$PATH"
 rails server -p 3000
 ```
 
+### Code Quality & Style
+```bash
+# Run RuboCop to check code style
+bundle exec rubocop
+
+# Auto-fix correctable style issues
+bundle exec rubocop -a
+
+# Check specific files or directories
+bundle exec rubocop app/controllers/
+bundle exec rubocop spec/
+```
+
+**Important:** Always run `bundle exec rubocop` after making changes to verify that style lints are fixed. This ensures code consistency and follows the established style guidelines.
+
 ### Key Dependencies
 ```ruby
 # Gemfile additions

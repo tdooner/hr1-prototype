@@ -2,41 +2,41 @@ class EngagementForm < ApplicationRecord
   validates :user_name, presence: true
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :application_date, presence: true
-  
+
   # Student-specific validations
   validates :school_name, presence: true, on: :students_page
   validates :enrollment_status, presence: true, on: :students_page
   validate :school_hours_required_when_less_than_half_time, on: :students_page
-  
+
   # Work program-specific validations
   validates :work_program_name, presence: true, on: :work_programs_page
   validates :hours_attended, presence: true, numericality: { greater_than: 0 }, on: :work_programs_page
-  
+
   has_many :volunteer_shifts, dependent: :destroy
   has_many :job_paychecks, dependent: :destroy
-  
+
   def prior_month
     return nil unless application_date
     application_date.beginning_of_month - 1.month
   end
-  
+
   def prior_month_name
     return nil unless prior_month
     prior_month.strftime("%B %Y")
   end
-  
+
   def meets_requirements?
     verifier = EngagementRequirementsVerifier.new(self)
     verifier.meets_requirements?
   end
-  
+
   def verification_details
     verifier = EngagementRequirementsVerifier.new(self)
     verifier.verification_details
   end
-  
+
   private
-  
+
   def school_hours_required_when_less_than_half_time
     if enrollment_status == "less_than_half_time" && school_hours.blank?
       errors.add(:school_hours, "is required when enrolled less than half-time")

@@ -19,18 +19,18 @@ RSpec.describe "Students", type: :request do
     before { navigate_to_students }
 
     it "handles half-time or more enrollment" do
-      post "/students", params: { 
-        school_name: "Test University", 
+      post "/students", params: {
+        school_name: "Test University",
         enrollment_status: "half_time_or_more",
         school_hours: nil
       }
       expect(response).to have_http_status(:redirect)
       expect(response).to redirect_to(review_summary_path)
     end
-    
+
     it "handles less than half-time enrollment with hours" do
-      post "/students", params: { 
-        school_name: "Test University", 
+      post "/students", params: {
+        school_name: "Test University",
         enrollment_status: "less_than_half_time",
         school_hours: 10.5
       }

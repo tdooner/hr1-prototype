@@ -56,7 +56,7 @@ RSpec.describe "Summaries", type: :request do
       post "/summary/submit"
       expect(response).to have_http_status(:redirect)
       expect(response).to redirect_to(summary_path)
-      
+
       # Verify the form was marked as completed
       engagement_form = EngagementForm.last
       expect(engagement_form.completed?).to be true

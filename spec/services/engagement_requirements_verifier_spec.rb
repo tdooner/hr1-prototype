@@ -35,7 +35,7 @@ RSpec.describe EngagementRequirementsVerifier do
     context 'when meets income requirement' do
       before do
         engagement_form.update!(has_job: true)
-        create(:job_paycheck, 
+        create(:job_paycheck,
           engagement_form: engagement_form,
           pay_date: prior_month + 15.days,
           gross_pay_amount: 600.0,
@@ -51,7 +51,7 @@ RSpec.describe EngagementRequirementsVerifier do
     context 'when meets hours requirement' do
       before do
         engagement_form.update!(has_job: true)
-        create(:job_paycheck, 
+        create(:job_paycheck,
           engagement_form: engagement_form,
           pay_date: prior_month + 15.days,
           gross_pay_amount: 400.0,
@@ -76,7 +76,7 @@ RSpec.describe EngagementRequirementsVerifier do
           hours_attended: 20.0
         )
 
-        create(:job_paycheck, 
+        create(:job_paycheck,
           engagement_form: engagement_form,
           pay_date: prior_month + 15.days,
           gross_pay_amount: 300.0,
@@ -104,7 +104,7 @@ RSpec.describe EngagementRequirementsVerifier do
           school_hours: 10.0
         )
 
-        create(:job_paycheck, 
+        create(:job_paycheck,
           engagement_form: engagement_form,
           pay_date: prior_month + 15.days,
           gross_pay_amount: 300.0,
@@ -130,7 +130,7 @@ RSpec.describe EngagementRequirementsVerifier do
         hours_attended: 20.0
       )
 
-      create(:job_paycheck, 
+      create(:job_paycheck,
         engagement_form: engagement_form,
         pay_date: prior_month + 15.days,
         gross_pay_amount: 600.0,
@@ -176,7 +176,7 @@ RSpec.describe EngagementRequirementsVerifier do
     context 'when has job but no paychecks in prior month' do
       before do
         engagement_form.update!(has_job: true)
-        create(:job_paycheck, 
+        create(:job_paycheck,
           engagement_form: engagement_form,
           pay_date: prior_month - 1.month,
           gross_pay_amount: 600.0,
@@ -192,13 +192,13 @@ RSpec.describe EngagementRequirementsVerifier do
     context 'when has multiple paychecks in prior month' do
       before do
         engagement_form.update!(has_job: true)
-        create(:job_paycheck, 
+        create(:job_paycheck,
           engagement_form: engagement_form,
           pay_date: prior_month + 15.days,
           gross_pay_amount: 300.0,
           hours_worked: 20.0
         )
-        create(:job_paycheck, 
+        create(:job_paycheck,
           engagement_form: engagement_form,
           pay_date: prior_month + 30.days,
           gross_pay_amount: 400.0,
@@ -214,7 +214,7 @@ RSpec.describe EngagementRequirementsVerifier do
     context 'when income is exactly at minimum' do
       before do
         engagement_form.update!(has_job: true)
-        create(:job_paycheck, 
+        create(:job_paycheck,
           engagement_form: engagement_form,
           pay_date: prior_month + 15.days,
           gross_pay_amount: 580.0,
@@ -230,7 +230,7 @@ RSpec.describe EngagementRequirementsVerifier do
     context 'when income is below minimum' do
       before do
         engagement_form.update!(has_job: true)
-        create(:job_paycheck, 
+        create(:job_paycheck,
           engagement_form: engagement_form,
           pay_date: prior_month + 15.days,
           gross_pay_amount: 579.0,
@@ -254,7 +254,7 @@ RSpec.describe EngagementRequirementsVerifier do
     context 'when has job hours' do
       before do
         engagement_form.update!(has_job: true)
-        create(:job_paycheck, 
+        create(:job_paycheck,
           engagement_form: engagement_form,
           pay_date: prior_month + 15.days,
           gross_pay_amount: 400.0,
@@ -353,7 +353,7 @@ RSpec.describe EngagementRequirementsVerifier do
           hours_attended: 15.0
         )
 
-        create(:job_paycheck, 
+        create(:job_paycheck,
           engagement_form: engagement_form,
           pay_date: prior_month + 15.days,
           gross_pay_amount: 400.0,
@@ -375,7 +375,7 @@ RSpec.describe EngagementRequirementsVerifier do
     context 'when hours are exactly at minimum' do
       before do
         engagement_form.update!(has_job: true)
-        create(:job_paycheck, 
+        create(:job_paycheck,
           engagement_form: engagement_form,
           pay_date: prior_month + 15.days,
           gross_pay_amount: 400.0,
@@ -391,7 +391,7 @@ RSpec.describe EngagementRequirementsVerifier do
     context 'when hours are below minimum' do
       before do
         engagement_form.update!(has_job: true)
-        create(:job_paycheck, 
+        create(:job_paycheck,
           engagement_form: engagement_form,
           pay_date: prior_month + 15.days,
           gross_pay_amount: 400.0,
@@ -460,13 +460,13 @@ RSpec.describe EngagementRequirementsVerifier do
     context 'when job paychecks are outside prior month' do
       before do
         engagement_form.update!(has_job: true)
-        create(:job_paycheck, 
+        create(:job_paycheck,
           engagement_form: engagement_form,
           pay_date: prior_month - 1.month,
           gross_pay_amount: 1000.0,
           hours_worked: 100.0
         )
-        create(:job_paycheck, 
+        create(:job_paycheck,
           engagement_form: engagement_form,
           pay_date: prior_month + 2.months,
           gross_pay_amount: 800.0,
@@ -477,7 +477,7 @@ RSpec.describe EngagementRequirementsVerifier do
       it 'tracks unused paychecks in verification details' do
         details = verifier.verification_details
         unused_data = details[:unused_data]
-        
+
         expect(unused_data).to have_key(:job_paychecks)
         expect(unused_data[:job_paychecks][:count]).to eq(2)
         expect(unused_data[:job_paychecks][:total_income]).to eq(1800.0)
@@ -507,7 +507,7 @@ RSpec.describe EngagementRequirementsVerifier do
       it 'tracks unused volunteer shifts in verification details' do
         details = verifier.verification_details
         unused_data = details[:unused_data]
-        
+
         expect(unused_data).to have_key(:volunteer_shifts)
         expect(unused_data[:volunteer_shifts][:count]).to eq(2)
         expect(unused_data[:volunteer_shifts][:total_hours]).to eq(150.0)
@@ -521,7 +521,7 @@ RSpec.describe EngagementRequirementsVerifier do
     context 'when no data is outside prior month' do
       before do
         engagement_form.update!(has_job: true, volunteers_nonprofit: true)
-        create(:job_paycheck, 
+        create(:job_paycheck,
           engagement_form: engagement_form,
           pay_date: prior_month + 15.days,
           gross_pay_amount: 600.0,
@@ -560,7 +560,7 @@ RSpec.describe EngagementRequirementsVerifier do
     context 'when job paychecks are outside prior month' do
       before do
         engagement_form.update!(has_job: true)
-        create(:job_paycheck, 
+        create(:job_paycheck,
           engagement_form: engagement_form,
           pay_date: prior_month + 2.months,
           gross_pay_amount: 1000.0,

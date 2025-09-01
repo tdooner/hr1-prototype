@@ -27,7 +27,7 @@ RSpec.describe "VolunteerShifts", type: :request do
         }
       }
       expect(response).to have_http_status(:redirect)
-      
+
       # Verify the volunteer shift was created
       engagement_form = EngagementForm.last
       expect(engagement_form.volunteer_shifts.count).to eq(1)

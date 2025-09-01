@@ -11,12 +11,12 @@ module SessionHelper
 
   # Helper to create a basic engagement form session
   def create_engagement_form_session
-    post "/engagement_forms", params: { 
-      engagement_form: { 
-        user_name: "John Doe", 
-        email: "john@example.com", 
-        application_date: Date.current 
-      } 
+    post "/engagement_forms", params: {
+      engagement_form: {
+        user_name: "John Doe",
+        email: "john@example.com",
+        application_date: Date.current
+      }
     }
     follow_redirect!
   end

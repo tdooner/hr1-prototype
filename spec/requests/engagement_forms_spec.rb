@@ -21,7 +21,7 @@ RSpec.describe "EngagementForms", type: :request do
   describe "session management" do
     it "sets session when creating new form" do
       post "/engagement_forms", params: { engagement_form: { user_name: "John Doe", email: "john@example.com", application_date: Date.current } }
-      
+
       # Check that the session was set by following the redirect
       follow_redirect!
       expect(response).to have_http_status(:success)

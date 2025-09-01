@@ -5,19 +5,19 @@ class StudentsController < ApplicationController
 
   def create
     @engagement_form = current_engagement_form
-    
+
     # Handle both nested and direct parameters
     school_name = params[:engagement_form]&.dig(:school_name) || params[:school_name]
     enrollment_status = params[:engagement_form]&.dig(:enrollment_status) || params[:enrollment_status]
     school_hours = params[:engagement_form]&.dig(:school_hours) || params[:school_hours]
-    
+
     # Update the attributes
     @engagement_form.assign_attributes(
       school_name: school_name,
       enrollment_status: enrollment_status,
       school_hours: school_hours
     )
-    
+
     # Validate with the students_page context
     if @engagement_form.valid?(:students_page)
       @engagement_form.save!
@@ -33,7 +33,7 @@ class StudentsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
-  
+
   # Class method to determine if this controller should be skipped
   def self.skip?(engagement_form)
     !engagement_form.is_student?

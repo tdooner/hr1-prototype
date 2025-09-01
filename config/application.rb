@@ -38,10 +38,10 @@ module Hr1Prototype
 
     # Don't generate system test files.
     config.generators.system_tests = nil
-    
+
     # Disable Rails' automatic field_with_errors wrapper since we handle errors with USWDS styling
     config.action_view.field_error_proc = Proc.new { |html_tag, instance| html_tag.html_safe }
-    
+
     # Add node_modules to asset paths for USWDS assets
     config.assets.paths << Rails.root.join("node_modules")
   end

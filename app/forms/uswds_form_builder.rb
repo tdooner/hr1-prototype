@@ -51,7 +51,7 @@ class UswdsFormBuilder < ActionView::Helpers::FormBuilder
     render_checkbox_group(method, label_text, hint_text) do
       add_error_class_to_options!(method, options)
       # Always add usa-checkbox__input and usa-checkbox__input--tile classes
-      options[:class] = [options[:class], "usa-checkbox__input", "usa-checkbox__input--tile"].compact.join(" ")
+      options[:class] = [ options[:class], "usa-checkbox__input", "usa-checkbox__input--tile" ].compact.join(" ")
       super(method, options, checked_value, unchecked_value)
     end
   end
@@ -61,7 +61,7 @@ class UswdsFormBuilder < ActionView::Helpers::FormBuilder
       add_radio_error_class_to_options!(method, html_options)
       super(method, collection, value_method, label_method, options, html_options) do |builder|
         @template.content_tag(:div, class: "usa-radio") do
-          builder.radio_button(class: "usa-radio__input usa-radio__input--tile") + 
+          builder.radio_button(class: "usa-radio__input usa-radio__input--tile") +
           builder.label(class: "usa-radio__label")
         end
       end
@@ -72,8 +72,8 @@ class UswdsFormBuilder < ActionView::Helpers::FormBuilder
 
   def render_form_group(method, label_text, hint_text = nil)
     error_class = has_errors?(method) ? "usa-form-group--error" : ""
-    css_class = ["usa-form-group", error_class].compact.join(" ")
-    
+    css_class = [ "usa-form-group", error_class ].compact.join(" ")
+
     @template.content_tag(:div, class: css_class) do
       safe_join([
         label(method, label_text, class: "usa-label"),
@@ -104,16 +104,16 @@ class UswdsFormBuilder < ActionView::Helpers::FormBuilder
 
   def add_error_class_to_options!(method, options)
     # Always add usa-input class
-    options[:class] = [options[:class], "usa-input"].compact.join(" ")
-    
+    options[:class] = [ options[:class], "usa-input" ].compact.join(" ")
+
     if has_errors?(method)
       # Add error class to the input field
-      options[:class] = [options[:class], "usa-input--error"].compact.join(" ")
-      
+      options[:class] = [ options[:class], "usa-input--error" ].compact.join(" ")
+
       # Add error message ID to aria-describedby
       existing_aria = options[:'aria-describedby']
       error_id = "#{method}-error"
-      
+
       if existing_aria
         # If there's already aria-describedby, append the error ID
         aria_ids = existing_aria.split(/\s+/)
@@ -130,7 +130,7 @@ class UswdsFormBuilder < ActionView::Helpers::FormBuilder
       # Add error message ID to aria-describedby
       existing_aria = options[:'aria-describedby']
       error_id = "#{method}-error"
-      
+
       if existing_aria
         # If there's already aria-describedby, append the error ID
         aria_ids = existing_aria.split(/\s+/)
@@ -144,11 +144,11 @@ class UswdsFormBuilder < ActionView::Helpers::FormBuilder
 
   def error_message_for(method)
     return unless has_errors?(method)
-    
+
     error_message = object.errors[method].first
-    @template.content_tag(:div, 
-      @template.content_tag(:span, error_message, class: "usa-error-message"), 
-      id: "#{method}-error", 
+    @template.content_tag(:div,
+      @template.content_tag(:span, error_message, class: "usa-error-message"),
+      id: "#{method}-error",
       class: "usa-error-message"
     )
   end

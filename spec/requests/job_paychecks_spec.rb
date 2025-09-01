@@ -27,7 +27,7 @@ RSpec.describe "JobPaychecks", type: :request do
         }
       }
       expect(response).to have_http_status(:redirect)
-      
+
       # Verify the paycheck was created
       engagement_form = EngagementForm.last
       expect(engagement_form.job_paychecks.count).to eq(1)

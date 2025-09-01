@@ -20,7 +20,7 @@ RSpec.describe EngagementForm, type: :model do
     context 'when meets income requirement' do
       before do
         engagement_form.update!(has_job: true)
-        create(:job_paycheck, 
+        create(:job_paycheck,
           engagement_form: engagement_form,
           pay_date: engagement_form.prior_month + 15.days,
           gross_pay_amount: 600.0,
@@ -39,7 +39,7 @@ RSpec.describe EngagementForm, type: :model do
 
     it 'returns verification details hash' do
       details = engagement_form.verification_details
-      
+
       expect(details).to be_a(Hash)
       expect(details).to include(
         :enrolled_half_time_or_more,

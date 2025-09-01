@@ -68,24 +68,24 @@ RSpec.describe "Questions", type: :request do
     end
 
     it "prioritizes job over other selections" do
-      post "/questions", params: { 
-        has_job: "yes", 
-        is_student: "yes", 
-        enrolled_work_program: "yes", 
-        volunteers_nonprofit: "yes" 
+      post "/questions", params: {
+        has_job: "yes",
+        is_student: "yes",
+        enrolled_work_program: "yes",
+        volunteers_nonprofit: "yes"
       }
       expect(response).to have_http_status(:redirect)
       expect(response).to redirect_to(new_job_path)
     end
 
     it "updates engagement form with correct boolean values" do
-      post "/questions", params: { 
-        has_job: "yes", 
-        is_student: "yes", 
-        enrolled_work_program: "no", 
-        volunteers_nonprofit: "no" 
+      post "/questions", params: {
+        has_job: "yes",
+        is_student: "yes",
+        enrolled_work_program: "no",
+        volunteers_nonprofit: "no"
       }
-      
+
       # Get the engagement form from the session
       engagement_form = EngagementForm.last
       expect(engagement_form.has_job?).to be true

@@ -19,9 +19,9 @@ RSpec.describe "WorkPrograms", type: :request do
     before { navigate_to_work_programs }
 
     it "handles work program creation" do
-      post "/work_programs", params: { 
-        work_program_name: "Test Work Program", 
-        hours_attended: 40.5 
+      post "/work_programs", params: {
+        work_program_name: "Test Work Program",
+        hours_attended: 40.5
       }
       expect(response).to have_http_status(:redirect)
       expect(response).to redirect_to(review_summary_path)
