@@ -1,0 +1,5 @@
+@use "uswds-core" as *;
+
+.usa-legend--large {
+  @include u-font("sans", 10);
+}
