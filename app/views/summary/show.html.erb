@@ -142,10 +142,16 @@
     <% end %>
     
     <div class="usa-form-group">
-      <% if @engagement_form.completed? %>
-        <%= link_to "Download PDF", pdf_download_path(format: :pdf), class: "usa-button" %>
-      <% end %>
-      <%= link_to "Submit Another Form", new_engagement_form_path, class: "usa-button usa-button--outline" %>
+      <ul class="usa-button-group">
+        <% if @engagement_form.completed? %>
+          <li class="usa-button-group__item">
+            <%= link_to "Download PDF", pdf_download_path(format: :pdf), class: "usa-button" %>
+          </li>
+        <% end %>
+        <li class="usa-button-group__item">
+          <%= link_to "Submit Another Form", new_engagement_form_path, class: "usa-button usa-button--outline" %>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
